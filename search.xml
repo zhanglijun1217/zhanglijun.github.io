@@ -23,21 +23,4 @@
         <tag>bug</tag>
       </tags>
   </entry>
-  <entry>
-    <title><![CDATA[auto md with sublime]]></title>
-    <url>%2Fblog%2F2018%2F07%2F22%2Fauto-md-with-sublime%2F</url>
-    <content type="text"><![CDATA[利用hexo搭建个人博客 这是利用hexo和github去搭建的个人博客]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>个人博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[张利君测试博客]]></title>
-    <url>%2Fblog%2F2018%2F07%2F16%2F%E5%BC%A0%E5%88%A9%E5%90%9B%E6%B5%8B%E8%AF%95%E5%8D%9A%E5%AE%A2%2F</url>
-    <content type="text"><![CDATA[这是我的第一篇hexo blog文章。 希望以后可以用这个博客去记录自技术上的一些成长历程]]></content>
-  </entry>
 </search>
