@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+  <url>
+    <loc>https://zhanglijun1217.github.io/blog/2018/08/02/orika%E8%BD%AC%E6%8D%A2bean%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%A2%E5%A4%B1/</loc>
+    <lastmod>2018-08-02T07:19:16.998Z</lastmod>
+    <data>
+        <display>
+        <title>orika转换bean的字段丢失</title>
+        <pubTime>2018-08-02T02:33:08.000Z</pubTime>
+        
+        <tag>orika</tag>
+         
+        <tag>bug</tag>
+         
+         
+           
+             
+              <breadCrumb title="bug记录" url="https://zhanglijun1217.github.io/blog/categories/bug%E8%AE%B0%E5%BD%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://zhanglijun1217.github.io/blog/2018/08/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2018-08-02T07:14:09.306Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式——策略模式</title>
+        <pubTime>2018-08-02T06:34:53.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="https://zhanglijun1217.github.io/blog/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+</urlset>
