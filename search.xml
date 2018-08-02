@@ -14,7 +14,7 @@
   <entry>
     <title><![CDATA[orika转换bean的字段丢失]]></title>
     <url>%2Fblog%2F2018%2F08%2F02%2Forika%E8%BD%AC%E6%8D%A2bean%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%A2%E5%A4%B1%2F</url>
-    <content type="text"><![CDATA[背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。 描述： 1.debug时发现的，源数据list是数据都存在的 2.转完之后的list数据，发现userName、realName等字段是丢失的。 解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。 这里去记录一下这次碰到的小bug，其实也是粗心导致的。]]></content>
+    <content type="text"><![CDATA[背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。&lt;! – more –&gt; 描述： 1.debug时发现的，源数据list是数据都存在的 2.转完之后的list数据，发现userName、realName等字段是丢失的。 解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。 这里去记录一下这次碰到的小bug，其实也是粗心导致的。]]></content>
       <categories>
         <category>bug记录</category>
       </categories>
