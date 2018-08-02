@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。&amp;lt;! – more –&amp;gt; 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上">
+<meta name="description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
 <meta name="keywords" content="orika,bug">
 <meta property="og:type" content="article">
 <meta property="og:title" content="orika转换bean的字段丢失">
 <meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。&amp;lt;! – more –&amp;gt; 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上">
+<meta property="og:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png">
-<meta property="og:updated_time" content="2018-08-02T07:15:33.579Z">
+<meta property="og:updated_time" content="2018-08-02T07:19:16.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="orika转换bean的字段丢失">
-<meta name="twitter:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。&amp;lt;! – more –&amp;gt; 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上">
+<meta name="twitter:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
 <meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
 
 
@@ -407,7 +407,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  173
+                  172
                 </span>
               
 
@@ -445,7 +445,7 @@
 
       
         <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。<br>&lt;! – more –&gt;</li>
+<li>用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。<a id="more"></a></li>
 <li>描述：<br>   1.debug时发现的，源数据list是数据都存在的<br><img src="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png" alt="源数据"><br>  2.转完之后的list数据，发现userName、realName等字段是丢失的。<br>  <img src="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png" alt="转换之后的数据"></li>
 </ul>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png" alt="注册字段"></p>
