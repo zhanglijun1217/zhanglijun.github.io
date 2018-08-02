@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hexo,个人博客," />
+  <meta name="keywords" content="orika,bug," />
 
 
 
@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="利用hexo搭建个人博客 这是利用hexo和github去搭建的个人博客">
-<meta name="keywords" content="hexo,个人博客">
+<meta name="description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工">
+<meta name="keywords" content="orika,bug">
 <meta property="og:type" content="article">
-<meta property="og:title" content="auto md with sublime">
-<meta property="og:url" content="https://zhanglijun1217.github.io/2018/07/22/auto-md-with-sublime/index.html">
+<meta property="og:title" content="orika转换bean的字段丢失">
+<meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="利用hexo搭建个人博客 这是利用hexo和github去搭建的个人博客">
+<meta property="og:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-29T10:00:10.127Z">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png">
+<meta property="og:updated_time" content="2018-08-02T02:38:24.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="auto md with sublime">
-<meta name="twitter:description" content="利用hexo搭建个人博客 这是利用hexo和github去搭建的个人博客">
+<meta name="twitter:title" content="orika转换bean的字段丢失">
+<meta name="twitter:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。 描述：   1.debug时发现的，源数据list是数据都存在的  2.转完之后的list数据，发现userName、realName等字段是丢失的。    解决经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工">
+<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/07/22/auto-md-with-sublime/"/>
+  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/"/>
 
 
 
 
 
-  <title>auto md with sublime | 张利君的博客</title>
+  <title>orika转换bean的字段丢失 | 张利君的博客</title>
   
 
 
@@ -308,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/07/22/auto-md-with-sublime/">
+    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/08/02/orika转换bean的字段丢失/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张利君">
@@ -325,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">auto md with sublime</h1>
+          <h1 class="post-title" itemprop="name headline">orika转换bean的字段丢失</h1>
         
 
         <div class="post-meta">
@@ -337,8 +341,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T18:44:25+08:00">
-                2018-07-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T10:33:08+08:00">
+                2018-08-02
               </time>
             
 
@@ -360,8 +364,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/blog/categories/bug记录/" itemprop="url" rel="index">
+                    <span itemprop="name">bug记录</span>
                   </a>
                 </span>
 
@@ -377,7 +381,7 @@
 
           
           
-             <span id="/blog/2018/07/22/auto-md-with-sublime/" class="leancloud_visitors" data-flag-title="auto md with sublime">
+             <span id="/blog/2018/08/02/orika转换bean的字段丢失/" class="leancloud_visitors" data-flag-title="orika转换bean的字段丢失">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -403,7 +407,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  23
+                  172
                 </span>
               
 
@@ -440,9 +444,12 @@
       
 
       
-        <h3 id="利用hexo搭建个人博客"><a href="#利用hexo搭建个人博客" class="headerlink" title="利用hexo搭建个人博客"></a>利用hexo搭建个人博客</h3><ul>
-<li>这是利用hexo和github去搭建的个人博客</li>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。</li>
+<li>描述：<br>   1.debug时发现的，源数据list是数据都存在的<br><img src="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png" alt="源数据"><br>  2.转完之后的list数据，发现userName、realName等字段是丢失的。<br>  <img src="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png" alt="转换之后的数据"></li>
 </ul>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png" alt="注册字段"></p>
+<p>这里去记录一下这次碰到的小bug，其实也是粗心导致的。</p>
 
       
     </div>
@@ -464,6 +471,35 @@
     <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/">orika转换bean的字段丢失</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
+  <p><span>发布时间:</span>2018年08月02日 - 10:08</p>
+  <p><span>最后更新:</span>2018年08月02日 - 10:08</p>
+  <p><span>原始链接:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/" title="orika转换bean的字段丢失">https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
 
       
    </div>
@@ -478,9 +514,9 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/blog/tags/orika/" rel="tag"># orika</a>
           
-            <a href="/blog/tags/个人博客/" rel="tag"># 个人博客</a>
+            <a href="/blog/tags/bug/" rel="tag"># bug</a>
           
         </div>
       
@@ -493,8 +529,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2018/07/16/张利君测试博客/" rel="next" title="张利君测试博客">
-                <i class="fa fa-chevron-left"></i> 张利君测试博客
+              <a href="/blog/2018/07/22/auto-md-with-sublime/" rel="next" title="auto md with sublime">
+                <i class="fa fa-chevron-left"></i> auto md with sublime
               </a>
             
           </div>
@@ -502,10 +538,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/08/02/orika转换bean的字段丢失/" rel="prev" title="orika转换bean的字段丢失">
-                orika转换bean的字段丢失 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -668,7 +700,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用hexo搭建个人博客"><span class="nav-number">1.</span> <span class="nav-text">利用hexo搭建个人博客</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
             
 
           </div>
