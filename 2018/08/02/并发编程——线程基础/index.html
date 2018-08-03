@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。并发">
+<meta name="description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念一、并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。">
 <meta name="keywords" content="并发编程,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发编程——线程基础（一）">
 <meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/02/并发编程——线程基础/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。并发">
+<meta property="og:description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念一、并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/174442_0BNr_182175.jpg">
-<meta property="og:updated_time" content="2018-08-03T11:21:28.279Z">
+<meta property="og:updated_time" content="2018-08-03T11:31:28.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发编程——线程基础（一）">
-<meta name="twitter:description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。并发">
+<meta name="twitter:description" content="线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。 一些概念一、并发与并行 并发：同一个时间间隔内做很多件事情；并行：同一个时刻同时做多件事情。 其实对于这句话可以这样理解：并发是两个任务可以在重叠的时间段内启动、运行和完成。并行是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。">
 <meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/174442_0BNr_182175.jpg">
 
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,099
+                  2,104
                 </span>
               
 
@@ -433,37 +433,30 @@
 
       
         <p>线程是Java学习过程中比较难理解的一part，所以要好好打下基础，之后也会对juc包等其他并发编知识去做一个具体的原理性的学习。</p>
-<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h2 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h2><ul>
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h2 id="一、并发与并行"><a href="#一、并发与并行" class="headerlink" title="一、并发与并行"></a>一、并发与并行</h2><ul>
 <li><strong>并发</strong>：同一个时间间隔内做很多件事情；<strong>并行</strong>：同一个时刻同时做多件事情。</li>
 <li>其实对于这句话可以这样理解：<strong>并发</strong>是两个任务可以在重叠的时间段内启动、运行和完成。<strong>并行</strong>是任务在同一时间运行，例如，在多核处理器上，并发是独立执行过程的组合，而并行是同时执行的。并发更像是操作系统用线程模型抽象之后站在线程的角度上看到的任务的”同时“执行。</li>
 </ul>
-<h2 id="临界区"><a href="#临界区" class="headerlink" title="临界区"></a>临界区</h2><ul>
+<h2 id="二、临界区"><a href="#二、临界区" class="headerlink" title="二、临界区"></a>二、临界区</h2><ul>
 <li>表示一种公有区域或者公有数据，但是每一次只有一个线程使用，其他线程想使用必须等待。进程在访问资源的时候必须经过这些步骤：<br>【进程】–&gt;【进入区（申请资源）】–&gt;【临界区】–&gt;【退出区（释放资源）】<a id="more"></a>
 在进入区中资源如果被占用访问，其他进入阻塞队列等待。</li>
 <li>阻塞：一个线程占用了临界区资源，其他需要这个资源的线程在临界区中等待，导致这些线程挂起。</li>
 <li>非阻塞：其他线程可以同时进入临界区，但保证公有数据不被改坏。</li>
 </ul>
-<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><ul>
+<h2 id="三、锁"><a href="#三、锁" class="headerlink" title="三、锁"></a>三、锁</h2><ul>
 <li>死锁（DeadLock）:线程之间互相等待释放资源</li>
 <li>饥饿锁（strarvation）:某一个线程或多个线程无法获取资源，导致一直无法执行</li>
 <li>活锁（liveLock）:可以想象为电梯遇到人，同时都往一个方向去给对方让出资源，是个动态的问题</li>
 </ul>
-<h2 id="并发级别"><a href="#并发级别" class="headerlink" title="并发级别"></a>并发级别</h2><ul>
+<h2 id="四、并发级别"><a href="#四、并发级别" class="headerlink" title="四、并发级别"></a>四、并发级别</h2><ul>
 <li>阻塞状态级别</li>
-<li>非阻塞状态级别（这里面还分为三种）</li>
+<li>非阻塞状态级别（这里面还分为三种）<br>(1) 无障碍。一种最弱的非阻塞调度，自由进出临界区。无竞争时要求有限步骤内完成操作；无竞争时直接进行回滚数据。<br>(2) 无锁。保证只有一个线程可以胜出访问临界资源。比如乐观锁（CAS）<br>(3) 无等待的，并发中最高级别，是无锁的，要求所有的线程都在有限步内完成，并且无饥饿的。比如：读线程和写线程，所有线程都是无等待的。比如CopyOnWriteArrayList写时写副本数据，读时共享读，线程之间是无等待的。</li>
 </ul>
-<h3 id="无障碍"><a href="#无障碍" class="headerlink" title="无障碍"></a>无障碍</h3><ul>
-<li>一种最弱的非阻塞调度，自由进出临界区。无竞争时要求有限步骤内完成操作；无竞争时直接进行回滚数据。</li>
-</ul>
-<h3 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h3><ul>
-<li>无障碍的，保证只有一个线程可以胜出访问临界资源。比如乐观锁（CAS）</li>
-<li>无等待的，并发中最高级别，是无锁的，要求所有的线程都在有限步内完成，并且无饥饿的。比如：读线程和写线程，所有线程都是无等待的。比如CopyOnWriteArrayList写时写副本数据，读时共享读，线程之间是无等待的。</li>
-</ul>
-<h2 id="并行的两个定律"><a href="#并行的两个定律" class="headerlink" title="并行的两个定律"></a>并行的两个定律</h2><ul>
+<h2 id="五、并行的两个定律"><a href="#五、并行的两个定律" class="headerlink" title="五、并行的两个定律"></a>五、并行的两个定律</h2><ul>
 <li>加速比：优化前系统耗时/优化后系统耗时。 说明增加CPU个数不一定增加加速比。</li>
 <li>古斯塔夫森定律：只要有足够的并行化，那么加速比和CPU个数成正比</li>
 </ul>
-<h2 id="线程相关知识"><a href="#线程相关知识" class="headerlink" title="线程相关知识"></a>线程相关知识</h2><h3 id="线程和进程"><a href="#线程和进程" class="headerlink" title="线程和进程"></a>线程和进程</h3><ul>
+<h2 id="六、线程相关知识"><a href="#六、线程相关知识" class="headerlink" title="六、线程相关知识"></a>六、线程相关知识</h2><h3 id="线程和进程"><a href="#线程和进程" class="headerlink" title="线程和进程"></a>线程和进程</h3><ul>
 <li>进程是分配资源的基本单位，线程是CPU调度的基本单位。进程之间的资源是互相独立不可共享的，但是线程之间是可以共享父线程或者进程的资源的。进程之间切换要比线程之间切换消耗资源代价多很多。</li>
 </ul>
 <h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><ul>
@@ -473,8 +466,8 @@
 <li>阻塞（block）：阻塞状态是指线程因为某种原因放弃了cpu使用权，也即让出了cpu timeslice，暂时停止运行。直到线程进入可运行（runnable）状态，才有机会再次获得cpu timeslice转到运行（running）状态。其中阻塞的状态分三种：<br>（1）等待阻塞：运行（running）的线程执行o.wait()方法，JVM会把线程放入到等待队列（waitting queue）中。<br>（2）同步阻塞：运行（running）的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池（lock pool）中。<br>（3）其他阻塞：运行（running）的线程执行Thread.Sleep(long ms)或者join方法，或者发出了IO请求，JVM会把该线程置为阻塞状态。当sleep状态超时、join()等待线程终止或者超时、或者IO处理完毕之后，线程重新转入可运行（runnable）状态。</li>
 <li>死亡（dead）：线程run()、main()方法执行结束，或者因一场退出了run()方法，则该线程结束生命周期，死亡的线程不可再次复生。</li>
 <li>线程状态扭转的图：<br><img src="http://pcsb3jzo3.bkt.clouddn.com/174442_0BNr_182175.jpg" alt="线程状态扭转"><br>可以看到：<br>（1）当调用new Threa()方法之后，线程就会处于新建状态。<br>（2）调用start()方法之后，线程会进入runnable状态，当操作系统选中之后给当前线程分配了时间片线程进入running状态。<br>（3）当run()方法、main()方法结束或者发生异常，线程会进入dead状态。<br>（4）当因为synchronize或者lock同步方法，线程没有获取到锁标识就会进入到锁池（lock pool）中等待；同样当调用o.wait()方法之后线程会进入等待队列中，这时会释放锁或者monitor，直到被其他线程的notify()方法或者notifyAll()方法唤醒。<br>（5）当调用Thread.yield()方法之后，会使线程从running状态转换到runnable状态再去和其他线程一起去竞争时间片资源，所以会出现调用yield()方法之后又重新竞争到了资源变成running状态。<br>（6）当调用了sleep()/join()方法之后，线程并不会释放锁或者monitor，而当sleep时间到了或者调用join()方法的线程执行完毕之后会继续进入running状态。</li>
-<li>注意其中线程的一些方法经常在面试中问到的问题：<br>1.sleep方法和wait方法的区别<br>（1）sleep是Thread类的方法，wait是Object类的方法<br>（2）调用sleep方法不会释放锁，wait方法会使线程释放当前的锁。<br>（3）wait方法必须别的线程执行notify/notifyAll()方法才能重新获取CPU执行时间。<br>2.join()方法的本质<br>join方法是把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。比如main线程中调用t.join()时候，main线程会获得线程对象t的锁，调用对象的wait方法(等待时间)，直到该对象唤醒main线程，所以意味着main线程调用t.join()时，必须能够拿到线程t对象的锁。注意join()方法也是要捕捉异常的，关于join()方法的比较好的一篇文章：<a href="http://uule.iteye.com/blog/1101994" target="_blank" rel="noopener">http://uule.iteye.com/blog/1101994</a><br>3.yield()方法</li>
-<li>yield()方法与sleep()方法类似，只是不能由用户指定暂停多长时间，并且yield()方法只能让同优先级的线程有执行的机会，yield()方法不会释放对象上的锁。<br>4.wait()和notify()、notifyAll()</li>
+<li>注意其中线程的一些方法经常在面试中问到的问题：<br><strong> 1.sleep方法和wait方法的区别 </strong><br>（1）sleep是Thread类的方法，wait是Object类的方法<br>（2）调用sleep方法不会释放锁，wait方法会使线程释放当前的锁。<br>（3）wait方法必须别的线程执行notify/notifyAll()方法才能重新获取CPU执行时间。<br><strong> 2.join()方法的本质 </strong><br>join方法是把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。比如main线程中调用t.join()时候，main线程会获得线程对象t的锁，调用对象的wait方法(等待时间)，直到该对象唤醒main线程，所以意味着main线程调用t.join()时，必须能够拿到线程t对象的锁。注意join()方法也是要捕捉异常的，关于join()方法的比较好的一篇文章：<a href="http://uule.iteye.com/blog/1101994" target="_blank" rel="noopener">http://uule.iteye.com/blog/1101994</a><br><strong> 3.yield()方法 </strong></li>
+<li>yield()方法与sleep()方法类似，只是不能由用户指定暂停多长时间，并且yield()方法只能让同优先级的线程有执行的机会，yield()方法不会释放对象上的锁。<br><strong> 4.wait()和notify()、notifyAll() </strong></li>
 <li>这三个方法用于协调多个线程对共享数据的存取，所以必须在synchronized中执行使用。synchronized关键字用于保护共享数据，阻止其他线程对共享数据的存取，可以用这三个方法去灵活控制。wait()方法使当前的线程暂停执行并释放对象锁标识，让其他线程可以进入synchronized数据块，当前线程被放入对象等待池中，只有锁标志等待池中线程能获取锁标志；如果锁标志等待池中没有线程，则notify()不起作用。notifyAll()方法则从对象等待池中移走所有等待那个对象的线程并放入锁标志等待池中。</li>
 <li>wait()、notify()方法是Object类的方法，因为他们必须要标识它们操作线程的锁，而锁对象可能是任何对象，所有这里这两个方法是Object类的方法。</li>
 </ul>
@@ -732,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一些概念"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#并发与并行"><span class="nav-number">1.1.</span> <span class="nav-text">并发与并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#临界区"><span class="nav-number">1.2.</span> <span class="nav-text">临界区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">1.3.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发级别"><span class="nav-number">1.4.</span> <span class="nav-text">并发级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无障碍"><span class="nav-number">1.4.1.</span> <span class="nav-text">无障碍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无锁"><span class="nav-number">1.4.2.</span> <span class="nav-text">无锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行的两个定律"><span class="nav-number">1.5.</span> <span class="nav-text">并行的两个定律</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程相关知识"><span class="nav-number">1.6.</span> <span class="nav-text">线程相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和进程"><span class="nav-number">1.6.1.</span> <span class="nav-text">线程和进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.6.2.</span> <span class="nav-text">线程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程创建几种方式"><span class="nav-number">1.6.3.</span> <span class="nav-text">线程创建几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#继承Thread类"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">继承Thread类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现Runnable接口"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">实现Runnable接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现Callable接口（线程可以有返回值和抛出异常）"><span class="nav-number">1.6.3.3.</span> <span class="nav-text">实现Callable接口（线程可以有返回值和抛出异常）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池实现"><span class="nav-number">1.6.3.4.</span> <span class="nav-text">线程池实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程中的其他常见方法"><span class="nav-number">1.6.4.</span> <span class="nav-text">线程中的其他常见方法</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一些概念"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、并发与并行"><span class="nav-number">1.1.</span> <span class="nav-text">一、并发与并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、临界区"><span class="nav-number">1.2.</span> <span class="nav-text">二、临界区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、锁"><span class="nav-number">1.3.</span> <span class="nav-text">三、锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、并发级别"><span class="nav-number">1.4.</span> <span class="nav-text">四、并发级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、并行的两个定律"><span class="nav-number">1.5.</span> <span class="nav-text">五、并行的两个定律</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、线程相关知识"><span class="nav-number">1.6.</span> <span class="nav-text">六、线程相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和进程"><span class="nav-number">1.6.1.</span> <span class="nav-text">线程和进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.6.2.</span> <span class="nav-text">线程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程创建几种方式"><span class="nav-number">1.6.3.</span> <span class="nav-text">线程创建几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#继承Thread类"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">继承Thread类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现Runnable接口"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">实现Runnable接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现Callable接口（线程可以有返回值和抛出异常）"><span class="nav-number">1.6.3.3.</span> <span class="nav-text">实现Callable接口（线程可以有返回值和抛出异常）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池实现"><span class="nav-number">1.6.3.4.</span> <span class="nav-text">线程池实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程中的其他常见方法"><span class="nav-number">1.6.4.</span> <span class="nav-text">线程中的其他常见方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
