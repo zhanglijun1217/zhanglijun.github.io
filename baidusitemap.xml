@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://zhanglijun1217.github.io/blog/2018/08/12/spring%E4%B8%AD%E6%A0%B9%E6%8D%AEApplication%E8%8E%B7%E5%8F%96BEAN%E7%9A%84%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
+    <lastmod>2018-08-12T14:32:22.722Z</lastmod>
+    <data>
+        <display>
+        <title>spring中根据Application获取BEAN的工具类</title>
+        <pubTime>2018-08-12T14:16:44.000Z</pubTime>
+        
+        <tag>spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring" url="https://zhanglijun1217.github.io/blog/categories/spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://zhanglijun1217.github.io/blog/2018/08/12/Java8%E4%B8%ADlist%E8%BD%ACmap%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2018-08-12T14:11:51.879Z</lastmod>
     <data>
