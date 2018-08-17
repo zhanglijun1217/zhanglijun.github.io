@@ -87,10 +87,13 @@
 <meta property="og:site_name" content="张利君的博客">
 <meta property="og:description" content="概念介绍ThreadLocal是早期jdk版本中就有的一个工具，基本原理是同一个ThreadLocal所包含的对象（对ThreadLocal而言即为String类型变量），在不同的Thread中有不同的副本（实际是不同的实例）。这里有几点需要注意：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-17T08:49:51.675Z">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/VarMap.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/ThreadMap.png">
+<meta property="og:updated_time" content="2018-08-17T08:58:23.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发编程——ThreadLocal总结">
 <meta name="twitter:description" content="概念介绍ThreadLocal是早期jdk版本中就有的一个工具，基本原理是同一个ThreadLocal所包含的对象（对ThreadLocal而言即为String类型变量），在不同的Thread中有不同的副本（实际是不同的实例）。这里有几点需要注意：">
+<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/VarMap.png">
 
 
 
@@ -393,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,037
+                  2,015
                 </span>
               
 
@@ -438,7 +441,7 @@
 <li>ThreadLocal的适用场景：ThreadLocal适用于每个线程需要自己独立的实例且该实例需要在多个方法中使用，也即变量在线程间隔离而在方法或类间共享的场景。其实这种场景下并不只是可以用ThreadLocal去解决，只不过ThreadLocal更简洁。</li>
 </ul>
 <h2 id="ThreadLocal原理"><a href="#ThreadLocal原理" class="headerlink" title="ThreadLocal原理"></a>ThreadLocal原理</h2><h3 id="实现可能的猜想"><a href="#实现可能的猜想" class="headerlink" title="实现可能的猜想"></a>实现可能的猜想</h3><h4 id="ThreadLocal维护线程与实例的映射"><a href="#ThreadLocal维护线程与实例的映射" class="headerlink" title="ThreadLocal维护线程与实例的映射"></a>ThreadLocal维护线程与实例的映射</h4><ul>
-<li>既然每个访问ThreadLocal变量的线程都有自己的一个“本地”实例副本，那么可能的方案是ThreadLocal维护着一个Map，键是Thread，值是它在这个Thread中的实例。线程通过该ThreadLocal的get()方法获取实例时，只需要以线程为键，从map中获取实例即可。<br>!(key为Thread模型)[<a href="http://pcsb3jzo3.bkt.clouddn.com/VarMap.png]" target="_blank" rel="noopener">http://pcsb3jzo3.bkt.clouddn.com/VarMap.png]</a></li>
+<li>既然每个访问ThreadLocal变量的线程都有自己的一个“本地”实例副本，那么可能的方案是ThreadLocal维护着一个Map，键是Thread，值是它在这个Thread中的实例。线程通过该ThreadLocal的get()方法获取实例时，只需要以线程为键，从map中获取实例即可。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/VarMap.png" alt="key为Thread模型"></li>
 <li>这个方案却又有问题：</li>
 </ul>
 <ol>
@@ -447,7 +450,7 @@
 <li>第一个问题是jdk不去采取这种做法的原因。</li>
 </ol>
 <h4 id="ThreadLocal维护ThreadLocal与实例的映射"><a href="#ThreadLocal维护ThreadLocal与实例的映射" class="headerlink" title="ThreadLocal维护ThreadLocal与实例的映射"></a>ThreadLocal维护ThreadLocal与实例的映射</h4><ul>
-<li>如果这个Map是每个线程去访问自己的一个Map，就不会产生多线程写的问题。map中维护着key为ThreadLocal实例，设计如下图所示。<br>!(key为ThreadLocal实例)[<a href="http://pcsb3jzo3.bkt.clouddn.com/ThreadMap.png]" target="_blank" rel="noopener">http://pcsb3jzo3.bkt.clouddn.com/ThreadMap.png]</a></li>
+<li>如果这个Map是每个线程去访问自己的一个Map，就不会产生多线程写的问题。map中维护着key为ThreadLocal实例，设计如下图所示。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/ThreadMap.png" alt="key为ThreadLocal实例"></li>
 <li>这个方案中解决了map的线程安全问题，相当于第一种方法的倒转想法，map中key设置为ThreadLocal实例在不同线程中访问。</li>
 <li>这种方案还是没有去解决内存泄漏问题。由于每个线程访问到ThreadLocal变量之后，都会在自己的Map内维护该ThreadLocal变量与具体实例的映射，如果不删除这些引用（映射），则这些ThreadLocal不能被回收，可能会造成内存泄漏。</li>
 </ul>
