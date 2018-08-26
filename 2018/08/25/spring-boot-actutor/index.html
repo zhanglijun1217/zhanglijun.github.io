@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="orika,bug," />
+  <meta name="keywords" content="spring boot,actuator," />
 
 
 
@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
-<meta name="keywords" content="orika,bug">
+<meta name="description" content="前言spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。 actuator的使用引入依赖1234&amp;lt;dependency&amp;gt;     &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;     &amp;lt;artifac">
+<meta name="keywords" content="spring boot,actuator">
 <meta property="og:type" content="article">
-<meta property="og:title" content="orika转换bean的字段丢失">
-<meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/index.html">
+<meta property="og:title" content="spring boot actuator">
+<meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/25/spring-boot-actutor/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
+<meta property="og:description" content="前言spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。 actuator的使用引入依赖1234&amp;lt;dependency&amp;gt;     &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;     &amp;lt;artifac">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png">
-<meta property="og:updated_time" content="2018-08-02T07:19:16.998Z">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180826-202547@2x.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WechatIMG69.jpeg">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/20170213112756666.png">
+<meta property="og:updated_time" content="2018-08-26T13:07:12.431Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="orika转换bean的字段丢失">
-<meta name="twitter:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
-<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
+<meta name="twitter:title" content="spring boot actuator">
+<meta name="twitter:description" content="前言spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。 actuator的使用引入依赖1234&amp;lt;dependency&amp;gt;     &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;     &amp;lt;artifac">
+<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180826-202547@2x.png">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/"/>
+  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/08/25/spring-boot-actutor/"/>
 
 
 
 
 
-  <title>orika转换bean的字段丢失 | 张利君的博客</title>
+  <title>spring boot actuator | 张利君的博客</title>
   
 
 
@@ -302,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/08/02/orika转换bean的字段丢失/">
+    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/08/25/spring-boot-actutor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张利君">
@@ -319,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">orika转换bean的字段丢失</h1>
+          <h1 class="post-title" itemprop="name headline">spring boot actuator</h1>
         
 
         <div class="post-meta">
@@ -331,8 +331,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T10:33:08+08:00">
-                2018-08-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-25T19:02:32+08:00">
+                2018-08-25
               </time>
             
 
@@ -354,8 +354,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/bug记录/" itemprop="url" rel="index">
-                    <span itemprop="name">bug记录</span>
+                  <a href="/blog/categories/spring/" itemprop="url" rel="index">
+                    <span itemprop="name">spring</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/spring/spring-boot/" itemprop="url" rel="index">
+                    <span itemprop="name">spring boot</span>
                   </a>
                 </span>
 
@@ -371,7 +382,7 @@
 
           
           
-             <span id="/blog/2018/08/02/orika转换bean的字段丢失/" class="leancloud_visitors" data-flag-title="orika转换bean的字段丢失">
+             <span id="/blog/2018/08/25/spring-boot-actutor/" class="leancloud_visitors" data-flag-title="spring boot actuator">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -397,7 +408,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  172
+                  378
                 </span>
               
 
@@ -434,12 +445,14 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。<a id="more"></a></li>
-<li>描述：<br>   1.debug时发现的，源数据list是数据都存在的<br><img src="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png" alt="源数据"><br>  2.转完之后的list数据，发现userName、realName等字段是丢失的。<br>  <img src="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png" alt="转换之后的数据"></li>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。</p>
+<h2 id="actuator的使用"><a href="#actuator的使用" class="headerlink" title="actuator的使用"></a>actuator的使用</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件的配置"><a href="#配置文件的配置" class="headerlink" title="配置文件的配置"></a>配置文件的配置</h3><ul>
+<li>management.port:指定访问监控防范的端口，这个端口应该与逻辑端口分离。如果不想使actuator暴露在http中，可以设置这个端口为-1。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180826-202547@2x.png" alt=""></li>
+<li>management.address：指定地址，比如只能通过本机监控，可以设置 management.address = 127.0.0.1<br>启动项目，可以看到actuator启动在了配置的7002端口，并且提供了可以访问其中的一些endPoints。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WechatIMG69.jpeg" alt=""></li>
 </ul>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png" alt="注册字段"></p>
-<p>这里去记录一下这次碰到的小bug，其实也是粗心导致的。</p>
+<h3 id="一些主要的EndPoints"><a href="#一些主要的EndPoints" class="headerlink" title="一些主要的EndPoints"></a>一些主要的EndPoints</h3><p>spring-boot提供了一些常用的EndPoints<br><img src="http://pcsb3jzo3.bkt.clouddn.com/20170213112756666.png" alt=""><br>其中鉴权为true的表示访问这些endPoints是需要保护的不能随意进行访问的。如果要取消，可以设置关闭鉴权（低版本的spring-boot没有提供鉴权）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">management.security.enable=false</span><br></pre></td></tr></table></figure></p>
+<h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><p>可以看到这个监控和自省的功能是十分有用的，可以看到bean信息、dump信息、mapping信息和访问链路信息等，所以这个功能在官方文档中也说的很清楚，我们也可以通过实现HealthIndicator接口，编写自己的health接口，也可以增加自己的监控接口。<br>具体的还可以看一下官方文档 <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank" rel="noopener">acautor文档</a></p>
 
       
     </div>
@@ -467,12 +480,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/">orika转换bean的字段丢失</a></p>
+  <p><span>本文标题:</span><a href="/blog/2018/08/25/spring-boot-actutor/">spring boot actuator</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
-  <p><span>发布时间:</span>2018年08月02日 - 10:08</p>
-  <p><span>最后更新:</span>2018年08月02日 - 15:08</p>
-  <p><span>原始链接:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/" title="orika转换bean的字段丢失">https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年08月25日 - 19:08</p>
+  <p><span>最后更新:</span>2018年08月26日 - 21:08</p>
+  <p><span>原始链接:</span><a href="/blog/2018/08/25/spring-boot-actutor/" title="spring boot actuator">https://zhanglijun1217.github.io/2018/08/25/spring-boot-actutor/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/25/spring-boot-actutor/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -504,9 +517,9 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/orika/" rel="tag"># orika</a>
+            <a href="/blog/tags/spring-boot/" rel="tag"># spring boot</a>
           
-            <a href="/blog/tags/bug/" rel="tag"># bug</a>
+            <a href="/blog/tags/actuator/" rel="tag"># actuator</a>
           
         </div>
       
@@ -519,15 +532,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/blog/2018/08/18/validate注解做校验/" rel="next" title="validate注解做校验">
+                <i class="fa fa-chevron-left"></i> validate注解做校验
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/08/02/设计模式——策略模式/" rel="prev" title="设计模式——策略模式">
-                设计模式——策略模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -690,7 +703,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#actuator的使用"><span class="nav-number">2.</span> <span class="nav-text">actuator的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入依赖"><span class="nav-number">2.1.</span> <span class="nav-text">引入依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件的配置"><span class="nav-number">2.2.</span> <span class="nav-text">配置文件的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些主要的EndPoints"><span class="nav-number">2.3.</span> <span class="nav-text">一些主要的EndPoints</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官方文档"><span class="nav-number">3.</span> <span class="nav-text">官方文档</span></a></li></ol></div>
             
 
           </div>
