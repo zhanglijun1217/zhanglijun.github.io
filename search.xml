@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[记一次freemarker错误排查]]></title>
+    <url>%2Fblog%2F2018%2F08%2F29%2F%E8%AE%B0%E4%B8%80%E6%AC%A1freemarker%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>freemarker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[spring boot actuator]]></title>
     <url>%2Fblog%2F2018%2F08%2F25%2Fspring-boot-actutor%2F</url>
     <content type="text"><![CDATA[前言spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。 actuator的使用引入依赖1234&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;&lt;/dependency&gt; 配置文件的配置 management.port:指定访问监控防范的端口，这个端口应该与逻辑端口分离。如果不想使actuator暴露在http中，可以设置这个端口为-1。 management.address：指定地址，比如只能通过本机监控，可以设置 management.address = 127.0.0.1启动项目，可以看到actuator启动在了配置的7002端口，并且提供了可以访问其中的一些endPoints。 一些主要的EndPointsspring-boot提供了一些常用的EndPoints其中鉴权为true的表示访问这些endPoints是需要保护的不能随意进行访问的。如果要取消，可以设置关闭鉴权（低版本的spring-boot没有提供鉴权）1management.security.enable=false 官方文档可以看到这个监控和自省的功能是十分有用的，可以看到bean信息、dump信息、mapping信息和访问链路信息等，所以这个功能在官方文档中也说的很清楚，我们也可以通过实现HealthIndicator接口，编写自己的health接口，也可以增加自己的监控接口。具体的还可以看一下官方文档 acautor文档]]></content>
@@ -33,7 +44,6 @@
         <category>并发编程</category>
       </categories>
       <tags>
-        <tag>并发编程</tag>
         <tag>ThreadLcoal</tag>
       </tags>
   </entry>
