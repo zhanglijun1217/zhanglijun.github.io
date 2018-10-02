@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[vi命令小总结（二）]]></title>
+    <url>%2Fblog%2F2018%2F09%2F30%2Fvi%E5%91%BD%E4%BB%A4%E5%B0%8F%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[在vi编辑模式下显示行数在vi编辑模式下可以显示下行数，比如在php调试模式下可以根据相应的行数的代码去打印值调试代码。 方法：在vi模式下输入:set nu即可。也可以直接:line number跳转到对应的行数。 在vi编辑模式中撤回一个操作在INSERT模式下如果写了一些操作，然后想撤回这个操作，按一下esc之后输入u即可。如果是想撤回刚才那个撤回操作，可以按了esc之后点击Ctrl + r。]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>vi命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[spring boot配置swagger]]></title>
     <url>%2Fblog%2F2018%2F09%2F24%2Fspring-boot%E9%85%8D%E7%BD%AEswagger%2F</url>
     <content type="text"><![CDATA[前言swagger是一个很好的restful形式的api文档，可以通过比较小的侵入来提供很好的restful的文档。因为swagger是依赖服务生成的，所以其实是依赖服务的，这也算是它的一个小缺点吧。但是其实如果一个项目习惯去手写文档之后，也是可以的，但是新的项目还是建议去用一些自动生成的文档，省去了很多麻烦。 spring boot配置swagger引入swagger依赖12345678910&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; 编写swagger对应的配置1234567891011121314151617181920212223242526272829303132333435363738import org.springframework.context.annotation.Bean;import org.springframework.context.annotation.Configuration;import springfox.documentation.builders.ApiInfoBuilder;import springfox.documentation.builders.PathSelectors;import springfox.documentation.builders.RequestHandlerSelectors;import springfox.documentation.service.ApiInfo;import springfox.documentation.spi.DocumentationType;import springfox.documentation.spring.web.plugins.Docket;import springfox.documentation.swagger2.annotations.EnableSwagger2;@Configuration@EnableSwagger2public class SwaggerConfig &#123; @Bean public Docket createRestApi() &#123; // 文档类型 return new Docket(DocumentationType.SWAGGER_2) // 创建api的基本信息 .apiInfo(apiInfo()) // 选择哪些接口去暴露 .select() // 扫描的包 .apis(RequestHandlerSelectors.basePackage(&quot;com.demo.web.controller&quot;)) .paths(PathSelectors.any()) .build(); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;groundhog-web swagger文档&quot;) .contact(&quot;name&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 在api和请求参数中使用注解接口中使用swagger注解 123456789101112@RestController@Api(value = &quot;测试swagger&quot;, description = &quot;测试swagger api&quot;)public class TestSwaggerController &#123; @ApiOperation(value = &quot;返回url中的参数&quot;, notes = &quot;返回url中的参数&quot;) @ApiImplicitParam(name = &quot;id&quot;, value = &quot;id值&quot;, paramType = &quot;path&quot;, required = true, dataType = &quot;Integer&quot;) @GetMapping(path = &quot;/getUrlParam/&#123;id&#125;&quot;) public Integer getUrlParam(@PathVariable(value = &quot;id&quot;) Integer id) &#123; return id; &#125;&#125; 可以访问localhost:port/swagger-ui.html看到生成的swagger文档。可以看到请求结果： 也可以看到之前post方法的接口也可以生成对于的参数文档，这里也可以对表单参数bean使用@ApiModel和@ApiProperty注解进行标识。 swagger相关注解和官方文档swagger常用注解： @Api：修饰整个类，描述controller的作用 @ApiOperation：描述一个类的一个方法，或者说一个接口 @ApiParam：单个参数描述 @ApiModel：用对象来接收参数 @ApiProperty：用对象接收参数时，描述对象的一个字段 @ApiImplicitParam：一个请求参数 @ApiImplicitParams：多个请求参数 这里推荐下官方文档，感兴趣可以看一下其他注解和相关配置： 注解官方文档]]></content>
