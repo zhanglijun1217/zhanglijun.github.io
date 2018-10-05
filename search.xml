@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[并发编程——ThreadPoolExecutor源码分析（一）]]></title>
+    <url>%2Fblog%2F2018%2F10%2F04%2F%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94ThreadPoolExecutor%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量 ctl变量源码中的解释ThreadPoolExecutor中有个字段是ctl，具体来说是对线程池的运行状态和池子中的有效线程数量的控制的一个字段变量，我们可以看看源码中的解释： 123456789101112/** * The main pool control state, ctl, is an atomic integer packing * two conceptual fields * workerCount, indicating the effective number of threads * runState, indicating whether running, shutting down etc * * In order to pack them into one int, we limit workerCount to * (2^29)-1 (about 500 million) threads rather than (2^31)-1 (2 * billion) otherwise representable. If this is ever an issue in * the future, the variable can be changed to be an AtomicLong, * and the shift/mask constants below adjusted. But until the need * arises, this code is a bit faster and simpler using an int. 可以看到ctl是AtomicInteger对象，里面的操作都是基于CAS的原子操作。一个ctl变量包含两部分信息，因为int类型的变量是32位的，所以高3位表示线程池的运行状态（runState），低29位表示线程池中有效线程数（workerCount）。 所以，当我们知道了线程池中的运行状态和有效线程数，就可以通过ctlOf方法计算出ctl的值： 1private static int ctlOf(int rs, int wc) &#123; return rs | wc; &#125; 反过来，我们也可以通过ctl计算出runState和workerCount的值： 12private static int runStateOf(int c) &#123; return c &amp; ~CAPACITY; &#125;private static int workerCountOf(int c) &#123; return c &amp; CAPACITY; &#125; 其中CAPACITY是(2^29)-1， 也就是高三位是0，低29位是1的一个int类型的数字常量。这个CAPACITY表示线程池中有效线程的上限值。这个值的计算过程： 12private static final int COUNT_BITS = Integer.SIZE - 3; // 29private static final int CAPACITY = (1 &lt;&lt; COUNT_BITS) - 1; 线程池的状态线程池中有五种状态： 123456// runState is stored in the high-order bitsprivate static final int RUNNING = -1 &lt;&lt; COUNT_BITS;private static final int SHUTDOWN = 0 &lt;&lt; COUNT_BITS;private static final int STOP = 1 &lt;&lt; COUNT_BITS;private static final int TIDYING = 2 &lt;&lt; COUNT_BITS;private static final int TERMINATED = 3 &lt;&lt; COUNT_BITS; 其中COUNT_BITS的值是29，在后边的源码分析过程中，我们其实只需要知道这几个状态是逐渐递增的即可。比如说在源码中看到 rs &lt; SHUTDOWN 其实就是表示此时线程池的运行状态是RUNNING。 五种状态的解释： （1）RUNNING：运行状态，能接受提交新的任务，并且也能处理阻塞队列中的任务。 （2）SHUTDOWN：关闭状态，不再接受新提交的任务，但是可以处理阻塞在任务队列中已保存的任务。在线程池处于RUNNING状态的时候，调用shutdown方法线程池即变为此状态。 （3）STOP：停止状态，不再接受新提交的任务，也不会处理阻塞队列中已保存的任务，并且会中断正在处理的任务，在线程池处于RUNNING状态或者SHUTDOWN状态的时候，调用shutdownNow方法线程池即进入该状态。 （4）TIDYING：清理状态，所有的任务都已经终止，workerCount有效线程数量为0，线程池进入该状态后调用terminated方法可以使线程池进入Terminated状态。当线程池处于SHUTDOWN状态时，如果此后线程池中没有线程并且阻塞队列中没有要执行的任务，就会进入到这个状态；当线程池处于STOP状态时，如果此时线程池中没有线程了，线程池会进入该状态。（5）TERMINATED：terminated()方法执行之后会进入该状态。]]></content>
+      <categories>
+        <category>并发编程</category>
+      </categories>
+      <tags>
+        <tag>并发编程</tag>
+        <tag>ThreadPoolExecutor</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[vi命令小总结（二）]]></title>
     <url>%2Fblog%2F2018%2F09%2F30%2Fvi%E5%91%BD%E4%BB%A4%E5%B0%8F%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89%2F</url>
     <content type="text"><![CDATA[在vi编辑模式下显示行数在vi编辑模式下可以显示下行数，比如在php调试模式下可以根据相应的行数的代码去打印值调试代码。 方法：在vi模式下输入:set nu即可。也可以直接:line number跳转到对应的行数。 在vi编辑模式中撤回一个操作在INSERT模式下如果写了一些操作，然后想撤回这个操作，按一下esc之后输入u即可。如果是想撤回刚才那个撤回操作，可以按了esc之后点击Ctrl + r。]]></content>
