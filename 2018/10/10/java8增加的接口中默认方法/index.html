@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="张利君的博客">
 <meta property="og:description" content="前言最近在工作中的一次小修改让自己应用到了java8中的新特性：接口默认方法，这里去简单记录下。在java8之后可以在接口定义方法的实现，成为default方法，类似于Scala中的trait。比如在Iterable接口中新增了foreach默认方法：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-10T16:15:40.739Z">
+<meta property="og:updated_time" content="2018-10-10T16:21:51.867Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java8增加的接口中默认方法">
 <meta name="twitter:description" content="前言最近在工作中的一次小修改让自己应用到了java8中的新特性：接口默认方法，这里去简单记录下。在java8之后可以在接口定义方法的实现，成为default方法，类似于Scala中的trait。比如在Iterable接口中新增了foreach默认方法：">
@@ -393,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,255
+                  1,259
                 </span>
               
 
@@ -439,7 +439,7 @@
 <p>这时候就用到了默认方法。这里我们可以在接口中定义一个默认方法insert，然后将之前的insert方法更换名称，在默认方法中去调用更换之后插入方法，而在默认方法中去做如果name为空则用手机号去代替这个逻辑。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int insertDefault(Clues entity);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @param entity</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">default int insert(Clues entity) &#123;</span><br><span class="line">    if (StringUtils.isEmpty(entity.getName()) &amp;&amp; StringUtils.isNotEmpty(entity.getMobile())) &#123;</span><br><span class="line">        entity.setName(entity.getMobile());</span><br><span class="line">    &#125;</span><br><span class="line">    return insertDefault(entity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样原来调用的insert方法也不需要去做更改，并且也不用在xml中进行改动就实现了这个小逻辑。注意要将xml中方insert方法改为insertDefault，这个更改比上边那种修改要显得合理的多。</p>
-<h3 id="默认方法的一个总结"><a href="#默认方法的一个总结" class="headerlink" title="默认方法的一个总结"></a>默认方法的一个总结</h3><p>java是面向对象的语言，那么就会有实现接口和继承父类，那么这些会对接口的默认方法有什么影响呢？下边参考博客：<a href="http://irusist.github.io/2016/01/02/Java-8%E4%B9%8Bdefault%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener"></a></p>
+<h3 id="默认方法的一个总结"><a href="#默认方法的一个总结" class="headerlink" title="默认方法的一个总结"></a>默认方法的一个总结</h3><p>java是面向对象的语言，那么就会有实现接口和继承父类，那么这些会对接口的默认方法有什么影响呢？下边参考博客：<a href="http://irusist.github.io/2016/01/02/Java-8%E4%B9%8Bdefault%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">默认方法</a></p>
 <p>存在一个父接口，定义了一个default方法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Parent &#123;</span><br><span class="line">    default String doit() &#123;</span><br><span class="line">        return &quot;Parent&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有一个类实现该接口，使用了默认的default方法：</p>
