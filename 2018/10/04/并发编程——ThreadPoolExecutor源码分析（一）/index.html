@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量">
+<meta name="description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量。并且去写了线程中的">
 <meta name="keywords" content="并发编程,ThreadPoolExecutor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发编程——ThreadPoolExecutor源码分析（一）">
 <meta property="og:url" content="https://zhanglijun1217.github.io/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量">
+<meta property="og:description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量。并且去写了线程中的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-10T16:29:56.961Z">
+<meta property="og:updated_time" content="2018-10-13T08:50:48.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发编程——ThreadPoolExecutor源码分析（一）">
-<meta name="twitter:description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量">
+<meta name="twitter:description" content="前言线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量。并且去写了线程中的">
 
 
 
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  965
+                  1,283
                 </span>
               
 
@@ -420,7 +420,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -441,25 +441,27 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>线程池是并发编程中最重要的应用之一，使用线程池可以防止大量的创建和销毁线程的过程，可以节省很多的内存空间，提高程序的响应率和cpu的利用率，并且也可以对线程进行统一管理和监控。这里将分几篇文章介绍一下线程池的源码分析。本篇是分析ThreadPoolExecutor中的ctl变量。并且去写了线程中的</p>
 <a id="more"></a>
 <h2 id="ctl变量"><a href="#ctl变量" class="headerlink" title="ctl变量"></a>ctl变量</h2><h3 id="源码中的解释"><a href="#源码中的解释" class="headerlink" title="源码中的解释"></a>源码中的解释</h3><p>ThreadPoolExecutor中有个字段是ctl，具体来说是对线程池的运行状态和池子中的有效线程数量的控制的一个字段变量，我们可以看看源码中的解释：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The main pool control state, ctl, is an atomic integer packing</span><br><span class="line"> * two conceptual fields</span><br><span class="line"> *   workerCount, indicating the effective number of threads</span><br><span class="line"> *   runState,    indicating whether running, shutting down etc</span><br><span class="line"> *</span><br><span class="line"> * In order to pack them into one int, we limit workerCount to</span><br><span class="line"> * (2^29)-1 (about 500 million) threads rather than (2^31)-1 (2</span><br><span class="line"> * billion) otherwise representable. If this is ever an issue in</span><br><span class="line"> * the future, the variable can be changed to be an AtomicLong,</span><br><span class="line"> * and the shift/mask constants below adjusted. But until the need</span><br><span class="line"> * arises, this code is a bit faster and simpler using an int.</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The main pool control state, ctl, is an atomic integer packing</span></span><br><span class="line"><span class="comment"> * two conceptual fields</span></span><br><span class="line"><span class="comment"> *   workerCount, indicating the effective number of threads</span></span><br><span class="line"><span class="comment"> *   runState,    indicating whether running, shutting down etc</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * In order to pack them into one int, we limit workerCount to</span></span><br><span class="line"><span class="comment"> * (2^29)-1 (about 500 million) threads rather than (2^31)-1 (2</span></span><br><span class="line"><span class="comment"> * billion) otherwise representable. If this is ever an issue in</span></span><br><span class="line"><span class="comment"> * the future, the variable can be changed to be an AtomicLong,</span></span><br><span class="line"><span class="comment"> * and the shift/mask constants below adjusted. But until the need</span></span><br><span class="line"><span class="comment"> * arises, this code is a bit faster and simpler using an int.</span></span><br></pre></td></tr></table></figure>
 <p>可以看到ctl是AtomicInteger对象，里面的操作都是基于CAS的原子操作。一个ctl变量包含两部分信息，因为int类型的变量是32位的，所以高3位表示线程池的运行状态（runState），低29位表示线程池中有效线程数（workerCount）。</p>
 <p>所以，当我们知道了线程池中的运行状态和有效线程数，就可以通过ctlOf方法计算出ctl的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static int ctlOf(int rs, int wc) &#123; return rs | wc; &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">ctlOf</span><span class="params">(<span class="keyword">int</span> rs, <span class="keyword">int</span> wc)</span> </span>&#123; <span class="keyword">return</span> rs | wc; &#125;</span><br></pre></td></tr></table></figure>
 <p>反过来，我们也可以通过ctl计算出runState和workerCount的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private static int runStateOf(int c)     &#123; return c &amp; ~CAPACITY; &#125;</span><br><span class="line">private static int workerCountOf(int c)  &#123; return c &amp; CAPACITY; &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">runStateOf</span><span class="params">(<span class="keyword">int</span> c)</span>     </span>&#123; <span class="keyword">return</span> c &amp; ~CAPACITY; &#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">workerCountOf</span><span class="params">(<span class="keyword">int</span> c)</span>  </span>&#123; <span class="keyword">return</span> c &amp; CAPACITY; &#125;</span><br></pre></td></tr></table></figure>
 <p>其中CAPACITY是(2^29)-1， 也就是高三位是0，低29位是1的一个int类型的数字常量。这个CAPACITY表示线程池中有效线程的上限值。这个值的计算过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private static final int COUNT_BITS = Integer.SIZE - 3; // 29</span><br><span class="line">private static final int CAPACITY   = (1 &lt;&lt; COUNT_BITS) - 1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COUNT_BITS = Integer.SIZE - <span class="number">3</span>; <span class="comment">// 29</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPACITY   = (<span class="number">1</span> &lt;&lt; COUNT_BITS) - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 <h3 id="线程池的状态"><a href="#线程池的状态" class="headerlink" title="线程池的状态"></a>线程池的状态</h3><p>线程池中有五种状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// runState is stored in the high-order bits</span><br><span class="line">private static final int RUNNING    = -1 &lt;&lt; COUNT_BITS;</span><br><span class="line">private static final int SHUTDOWN   =  0 &lt;&lt; COUNT_BITS;</span><br><span class="line">private static final int STOP       =  1 &lt;&lt; COUNT_BITS;</span><br><span class="line">private static final int TIDYING    =  2 &lt;&lt; COUNT_BITS;</span><br><span class="line">private static final int TERMINATED =  3 &lt;&lt; COUNT_BITS;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runState is stored in the high-order bits</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RUNNING    = -<span class="number">1</span> &lt;&lt; COUNT_BITS;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SHUTDOWN   =  <span class="number">0</span> &lt;&lt; COUNT_BITS;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STOP       =  <span class="number">1</span> &lt;&lt; COUNT_BITS;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TIDYING    =  <span class="number">2</span> &lt;&lt; COUNT_BITS;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TERMINATED =  <span class="number">3</span> &lt;&lt; COUNT_BITS;</span><br></pre></td></tr></table></figure>
 <p>其中COUNT_BITS的值是29，在后边的源码分析过程中，我们其实只需要知道这几个状态是逐渐递增的即可。比如说在源码中看到 rs &lt; SHUTDOWN 其实就是表示此时线程池的运行状态是RUNNING。</p>
 <p>五种状态的解释：</p>
 <p>（1）RUNNING：运行状态，能接受提交新的任务，并且也能处理阻塞队列中的任务。</p>
 <p>（2）SHUTDOWN：关闭状态，不再接受新提交的任务，但是可以处理阻塞在任务队列中已保存的任务。在线程池处于RUNNING状态的时候，调用shutdown方法线程池即变为此状态。</p>
 <p>（3）STOP：停止状态，不再接受新提交的任务，也不会处理阻塞队列中已保存的任务，并且会中断正在处理的任务，在线程池处于RUNNING状态或者SHUTDOWN状态的时候，调用shutdownNow方法线程池即进入该状态。</p>
 <p>（4）TIDYING：清理状态，所有的任务都已经终止，workerCount有效线程数量为0，线程池进入该状态后调用terminated方法可以使线程池进入Terminated状态。当线程池处于SHUTDOWN状态时，如果此后线程池中没有线程并且阻塞队列中没有要执行的任务，就会进入到这个状态；当线程池处于STOP状态时，如果此时线程池中没有线程了，线程池会进入该状态。<br>（5）TERMINATED：terminated()方法执行之后会进入该状态。</p>
+<h3 id="其他字段参数"><a href="#其他字段参数" class="headerlink" title="其他字段参数"></a>其他字段参数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//线程池控制器</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger ctl = <span class="keyword">new</span> AtomicInteger(ctlOf(RUNNING, <span class="number">0</span>));</span><br><span class="line"><span class="comment">//任务队列</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> BlockingQueue&lt;Runnable&gt; workQueue;</span><br><span class="line"><span class="comment">//全局锁</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"><span class="comment">//工作线程集合</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashSet&lt;Worker&gt; workers = <span class="keyword">new</span> HashSet&lt;Worker&gt;();</span><br><span class="line"><span class="comment">//终止条件 - 用于等待任务完成后才终止线程池</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition termination = mainLock.newCondition();</span><br><span class="line"><span class="comment">//曾创建过的最大线程数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> largestPoolSize;</span><br><span class="line"><span class="comment">//线程池已完成总任务数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">long</span> completedTaskCount;</span><br><span class="line"><span class="comment">//工作线程创建工厂</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> ThreadFactory threadFactory;</span><br><span class="line"><span class="comment">//饱和拒绝策略执行器</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> RejectedExecutionHandler handler;</span><br><span class="line"><span class="comment">//工作线程活动保持时间(超时后会被回收) - 纳秒</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">long</span> keepAliveTime;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 允许核心工作线程响应超时回收</span></span><br><span class="line"><span class="comment"> * false：核心工作线程即使空闲超时依旧存活</span></span><br><span class="line"><span class="comment"> * true：核心工作线程一旦超过keepAliveTime仍然空闲就被回收</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> allowCoreThreadTimeOut;</span><br><span class="line"><span class="comment">//核心工作线程数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> corePoolSize;</span><br><span class="line"><span class="comment">//最大工作线程数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> maximumPoolSize;</span><br><span class="line"><span class="comment">//默认饱和策略执行器 - AbortPolicy -&gt; 直接抛出异常</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RejectedExecutionHandler defaultHandler =</span><br><span class="line">        <span class="keyword">new</span> AbortPolicy();</span><br></pre></td></tr></table></figure>
+<h2 id="下一章"><a href="#下一章" class="headerlink" title="下一章"></a>下一章</h2><p>下一章将会去写一下ThreadPoolExecutor的构造函数和核心参数。</p>
 
       
     </div>
@@ -490,7 +492,7 @@
   <p><span>本文标题:</span><a href="/blog/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/">并发编程——ThreadPoolExecutor源码分析（一）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年10月04日 - 18:10</p>
-  <p><span>最后更新:</span>2018年10月11日 - 00:10</p>
+  <p><span>最后更新:</span>2018年10月13日 - 16:10</p>
   <p><span>原始链接:</span><a href="/blog/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/" title="并发编程——ThreadPoolExecutor源码分析（一）">https://zhanglijun1217.github.io/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/"  aria-label="复制成功！"></i></span>
   </p>
@@ -714,7 +716,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ctl变量"><span class="nav-number">2.</span> <span class="nav-text">ctl变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码中的解释"><span class="nav-number">2.1.</span> <span class="nav-text">源码中的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的状态"><span class="nav-number">2.2.</span> <span class="nav-text">线程池的状态</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ctl变量"><span class="nav-number">2.</span> <span class="nav-text">ctl变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码中的解释"><span class="nav-number">2.1.</span> <span class="nav-text">源码中的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的状态"><span class="nav-number">2.2.</span> <span class="nav-text">线程池的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他字段参数"><span class="nav-number">2.3.</span> <span class="nav-text">其他字段参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一章"><span class="nav-number">3.</span> <span class="nav-text">下一章</span></a></li></ol></div>
             
 
           </div>
@@ -749,7 +751,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">27.9k</span>
+    <span title="Site words total count">28.2k</span>
   
 </div>
 
@@ -777,7 +779,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共27.9k字</span>
+  <span class="post-count">博客全站共28.2k字</span>
 </div>
 
         
