@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="设计模式," />
+  <meta name="keywords" content="并发编程,ThreadPoolExecutor," />
 
 
 
@@ -79,20 +79,24 @@
 
 
 
-<meta name="description" content="策略模式 定义一系列的算法，把每一个算法封装起来，并且使它们可以相互替换。这个模式中使得各个算法可以独立于使用它的客户而变化。">
-<meta name="keywords" content="设计模式">
+<meta name="description" content="前言在上一篇中，我们分析了ThreadPoolExecutor中关键变量ctl，这篇我们继续来看ThreadPoolExecutor中的构造函数及其参数。其中参数的相关解释来源于源码中的相关注释。">
+<meta name="keywords" content="并发编程,ThreadPoolExecutor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式——策略模式">
-<meta property="og:url" content="https://zhanglijun1217.github.io/2018/08/02/设计模式——策略模式/index.html">
+<meta property="og:title" content="并发编程——ThreadPoolExecutor源码分析（二）">
+<meta property="og:url" content="https://zhanglijun1217.github.io/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="策略模式 定义一系列的算法，把每一个算法封装起来，并且使它们可以相互替换。这个模式中使得各个算法可以独立于使用它的客户而变化。">
+<meta property="og:description" content="前言在上一篇中，我们分析了ThreadPoolExecutor中关键变量ctl，这篇我们继续来看ThreadPoolExecutor中的构造函数及其参数。其中参数的相关解释来源于源码中的相关注释。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img-blog.csdn.net/20180727003628309?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2018-08-02T07:14:09.306Z">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-004655@2x.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-142301@2x.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-142551@2x.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-143149@2x.png">
+<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-150858@2x.png">
+<meta property="og:updated_time" content="2018-10-13T07:28:58.932Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式——策略模式">
-<meta name="twitter:description" content="策略模式 定义一系列的算法，把每一个算法封装起来，并且使它们可以相互替换。这个模式中使得各个算法可以独立于使用它的客户而变化。">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20180727003628309?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta name="twitter:title" content="并发编程——ThreadPoolExecutor源码分析（二）">
+<meta name="twitter:description" content="前言在上一篇中，我们分析了ThreadPoolExecutor中关键变量ctl，这篇我们继续来看ThreadPoolExecutor中的构造函数及其参数。其中参数的相关解释来源于源码中的相关注释。">
+<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-004655@2x.png">
 
 
 
@@ -122,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/08/02/设计模式——策略模式/"/>
+  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/"/>
 
 
 
 
 
-  <title>设计模式——策略模式 | 张利君的博客</title>
+  <title>并发编程——ThreadPoolExecutor源码分析（二） | 张利君的博客</title>
   
 
 
@@ -300,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/08/02/设计模式——策略模式/">
+    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张利君">
@@ -317,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式——策略模式</h1>
+          <h1 class="post-title" itemprop="name headline">并发编程——ThreadPoolExecutor源码分析（二）</h1>
         
 
         <div class="post-meta">
@@ -329,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T14:34:53+08:00">
-                2018-08-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-11T23:24:26+08:00">
+                2018-10-11
               </time>
             
 
@@ -352,8 +356,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/blog/categories/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/并发编程/并发基础/" itemprop="url" rel="index">
+                    <span itemprop="name">并发基础</span>
                   </a>
                 </span>
 
@@ -369,7 +384,7 @@
 
           
           
-             <span id="/blog/2018/08/02/设计模式——策略模式/" class="leancloud_visitors" data-flag-title="设计模式——策略模式">
+             <span id="/blog/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/" class="leancloud_visitors" data-flag-title="并发编程——ThreadPoolExecutor源码分析（二）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -395,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,266
+                  3,654
                 </span>
               
 
@@ -411,7 +426,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6
+                  13
                 </span>
               
             </div>
@@ -432,26 +447,59 @@
       
 
       
-        <h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><ul>
-<li>定义一系列的算法，把每一个算法封装起来，并且使它们可以相互替换。这个模式中使得各个算法可以独立于使用它的客户而变化。<a id="more"></a></li>
-<li>策略模式的构成：<br>1.抽象策略角色：策略类，通常由一个接口或者抽象类实现。<br>2.具体策略角色：包装了相关的算法和行为，实现策略接口或继承抽象类。<br>3.环境角色：context，运行时持有一个策略类的引用，最终给客户端调用。<br>对应的uml图片为：<br><img src="https://img-blog.csdn.net/20180727003628309?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="策略模式uml图片"></li>
-<li>策略模式让算法独立于使用它的客户而独立变化。策略模式重点是封装不同的算法和行为，不同的场景下可以相互替换。策略模式是开闭原则的体现，开闭原则讲的是一个软件实体应该对拓展开放对修改关闭。因为策略模式在加入新的策略时，不会影响其他类的修改，增加了拓展性，也就是对拓展是开放的；对于调用场景来说，只依赖于抽象，而不依赖于具体实现，所以对修改是关闭的。</li>
-<li>策略模式的优点和缺点<br>优点：<br>（1）调用策略中的方法在context中，没有和各个策略的实现耦合在一起，各个实现策略的不同子类可以去拓展、修改和切换。<br>（2）避免写很多if else代码，提高了可观性。同时可以结合抽象类（策略类）去使用，Java支持很好。<br>缺点：<br>（1）客户端调用时必须知道所有的策略类，并且感知到要调用哪一种策略实现。<br>（2）一旦抽象，必然会对一些特殊场景难以处理。并且这里去加入了很多的策略实现类，也有Context类的加入，增加了开销。</li>
-</ul>
-<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>比如现在支付方式有四种，这其中每一种方式都对应着不同的最后费用。这样可以应用策略模式。</p>
-<ol>
-<li>Strategy.java<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.intf;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 抽象策略角色Strategy接口</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/23 17:56</span><br><span class="line"> */</span><br><span class="line">public interface Strategy &#123;</span><br><span class="line">    // 定义计算recharge的方法</span><br><span class="line">    Double calRecharge(Double charge);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>2.StrategyContext.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.context;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.factory.StrategyFactory;</span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 策略模式中的环境角色 context</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 14:57</span><br><span class="line"> */</span><br><span class="line">public class Context &#123;</span><br><span class="line"></span><br><span class="line">    private Strategy strategy;</span><br><span class="line"></span><br><span class="line">    public Double calRecharge(Double charge, Integer type) &#123;</span><br><span class="line">        // 利用一个工厂去生成对应的策略</span><br><span class="line">        strategy = StrategyFactory.getInstance().creator(ReChargeTypeEnum.from(type));</span><br><span class="line">        if (strategy == null) &#123;</span><br><span class="line">            throw new RuntimeException(&quot;策略生成错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return strategy.calRecharge(charge);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.策略工厂，返回对应的策略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.factory;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line">import design_pattern.strategy_pattern.strategy.BusiAcctStrategy;</span><br><span class="line">import design_pattern.strategy_pattern.strategy.CardStrategy;</span><br><span class="line">import design_pattern.strategy_pattern.strategy.EBankStrategy;</span><br><span class="line">import design_pattern.strategy_pattern.strategy.MobileStrategy;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 策略工厂 负责Strategy实例的创建 根据传入的type实现创建不同的策略</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 15:01</span><br><span class="line"> */</span><br><span class="line">public class StrategyFactory &#123;</span><br><span class="line"></span><br><span class="line">    private static StrategyFactory factory = new StrategyFactory();</span><br><span class="line"></span><br><span class="line">    private static Map&lt;ReChargeTypeEnum, Strategy&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">    static &#123;</span><br><span class="line">        map.put(ReChargeTypeEnum.E_BANK, new EBankStrategy());</span><br><span class="line">        map.put(ReChargeTypeEnum.BUSI_ACCOUNTS, new BusiAcctStrategy());</span><br><span class="line">        map.put(ReChargeTypeEnum.MOBILE, new MobileStrategy());</span><br><span class="line">        map.put(ReChargeTypeEnum.CARD_RECHARGE, new CardStrategy());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * getInstance方法进行初始化</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static StrategyFactory getInstance() &#123;</span><br><span class="line">        return factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Strategy creator(ReChargeTypeEnum type) &#123;</span><br><span class="line">        return map.get(type);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>四种策略的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.strategy;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 14:53</span><br><span class="line"> */</span><br><span class="line">public class BusiAcctStrategy implements Strategy &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Double calRecharge(Double charge) &#123;</span><br><span class="line">        return charge * 0.9;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.strategy;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 14:57</span><br><span class="line"> */</span><br><span class="line">public class CardStrategy implements Strategy &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Double calRecharge(Double charge) &#123;</span><br><span class="line">        return charge + charge * 0.01;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.strategy;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 14:52</span><br><span class="line"> */</span><br><span class="line">public class EBankStrategy implements Strategy &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Double calRecharge(Double charge) &#123;</span><br><span class="line">        return charge * 0.85;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.strategy;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.intf.Strategy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/24 14:54</span><br><span class="line"> */</span><br><span class="line">public class MobileStrategy implements Strategy &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Double calRecharge(Double charge) &#123;</span><br><span class="line">        return charge;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Main.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package design_pattern.strategy_pattern.main;</span><br><span class="line"></span><br><span class="line">import design_pattern.strategy_pattern.constant.ReChargeTypeEnum;</span><br><span class="line">import design_pattern.strategy_pattern.context.Context;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 夸克</span><br><span class="line"> * @create 2018/7/26 23:30</span><br><span class="line"> */</span><br><span class="line">public class StrategyMain &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Context context = new Context();</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 计算四种计算方式</span><br><span class="line">         */</span><br><span class="line">        Double aDouble = context.calRecharge(100D, ReChargeTypeEnum.E_BANK.getValue());</span><br><span class="line">        Double bDouble = context.calRecharge(100D, ReChargeTypeEnum.BUSI_ACCOUNTS.getValue());</span><br><span class="line">        Double cDouble = context.calRecharge(100D, ReChargeTypeEnum.MOBILE.getValue());</span><br><span class="line">        Double dDouble = context.calRecharge(100D, ReChargeTypeEnum.CARD_RECHARGE.getValue());</span><br><span class="line"></span><br><span class="line">        System.out.println(aDouble + &quot;\t&quot; + bDouble + &quot;\t&quot; + cDouble + &quot;\t&quot; + dDouble);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="github"><a href="#github" class="headerlink" title="github"></a>github</h3><p>代码已经上传至我的github：<a href="https://github.com/zhanglijun1217/java8/tree/master/src/design_pattern/strategy_pattern" target="_blank" rel="noopener">https://github.com/zhanglijun1217/java8/tree/master/src/design_pattern/strategy_pattern</a></p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="https://www.jianshu.com/p/71feb016ac05" target="_blank" rel="noopener">https://www.jianshu.com/p/71feb016ac05</a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在上一篇中，我们分析了ThreadPoolExecutor中关键变量ctl，这篇我们继续来看ThreadPoolExecutor中的构造函数及其参数。其中参数的相关解释来源于源码中的相关注释。</p>
+<a id="more"></a>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>我们可以看到ThreadPoolExecutor有四个构造函数：</p>
+<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-004655@2x.png" alt=""></p>
+<p>他们其实都是调用其中的全参数的构造函数，只不过有一些参数是使用了默认提供的参数。我们可以看一下构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(int corePoolSize,</span><br><span class="line">                          int maximumPoolSize,</span><br><span class="line">                          long keepAliveTime,</span><br><span class="line">                          TimeUnit unit,</span><br><span class="line">                          BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="line">                          ThreadFactory threadFactory,</span><br><span class="line">                          RejectedExecutionHandler handler) &#123;</span><br><span class="line">    if (corePoolSize &lt; 0 ||</span><br><span class="line">        maximumPoolSize &lt;= 0 ||</span><br><span class="line">        maximumPoolSize &lt; corePoolSize ||</span><br><span class="line">        keepAliveTime &lt; 0)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    if (workQueue == null || threadFactory == null || handler == null)</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    this.acc = System.getSecurityManager() == null ?</span><br><span class="line">            null :</span><br><span class="line">            AccessController.getContext();</span><br><span class="line">    this.corePoolSize = corePoolSize;</span><br><span class="line">    this.maximumPoolSize = maximumPoolSize;</span><br><span class="line">    this.workQueue = workQueue;</span><br><span class="line">    this.keepAliveTime = unit.toNanos(keepAliveTime);</span><br><span class="line">    this.threadFactory = threadFactory;</span><br><span class="line">    this.handler = handler;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到构造函数现对于参数去进行了校验：<br>（1）corePoolSize必须大于等于0，maximumPoolSize必须大于0，maximumPoolSize必须大于等于corePoolSize，keepAliveTime如果传入了必须大于0。</p>
+<p>（2）workQueue、threadFactory、handler不能为空</p>
+<p>（3）其中有acc字段的设置是为了设置安全管理器，我们可以自定义我们的安全管理器，否则为从上下文中去拿。可以参考博客：<a href="https://blog.csdn.net/yfqnihao/article/details/8262858" target="_blank" rel="noopener">jvm中的安全管理器</a></p>
+<h3 id="构造函数中的参数"><a href="#构造函数中的参数" class="headerlink" title="构造函数中的参数"></a>构造函数中的参数</h3><h4 id="1-corePoolSize"><a href="#1-corePoolSize" class="headerlink" title="1.corePoolSize"></a>1.corePoolSize</h4><p>corePoolSize参数表示线程池中一直存活的线程的最小数量，这些一直存活的线程被称为核心线程，默认情况下，核心线程的最小数量都是整数，除非是调用了allowCoreThreadTimeout()方法并且传入了true，即允许核心线程数在空闲状态下超时而停止（terminated状态），此时如果所有的核心线程先后都因为超时停止，那么线程池中核心线程数会变为0。默认情况下，核心线程是按照需要创建并启动的，也就是说只有当线程池接收到我们提交的任务后，它才会去创建并启动一定的核心线程去执行这些任务。如果没有接收到相关任务，就不会去主动创建核心线程，这种默认的核心线程创建启动方式变主动为被动，类似于观察者模式，有利于降低系统资源的消耗。当然，也可以通过设置preStartCoreThread()或者preStartAllCoreThreads()方法来改变这一机制，使得在新任务还未提交到线程池的时候，线程池就已经创建并启动了一个或所有线程，并让这些核心线程在池中等待任务的到来。</p>
+<h4 id="2-maximumPoolSize"><a href="#2-maximumPoolSize" class="headerlink" title="2.maximumPoolSize"></a>2.maximumPoolSize</h4><p>maximumPoolSize表示线程池中能容量线程的最大数量，这个值不能超过常量CAPACITY的数值大小，上一篇中也提到了常量CAPACITY的计算方式，这里不去赘述。但是注意一点，<strong>当我们提供的工作队列是一个无界的队列，那么这里提供的maximumPoolSize将毫无意义。</strong></p>
+<p>当我们通过execute方法提交一个任务的时候：</p>
+<p>（1）如果线程池处于运行状态（RUNNING）的线程数量小于核心线程数（corePoolSize），那么即使有一些非核心线程处于空闲状态，系统也倾向于新建一个线程来处理这个任务。</p>
+<p>（2）如果线程池处于运行状态（RUNNING）的线程数量大于核心线程数（corePoolSize），但又小于maximumPoolSize，那么系统会去判断线程池内部的阻塞队列是否有空位子，如果有空位子，系统会将该任务先存入阻塞队列，如果发现队列中已没有空位子（即队列已满），系统会创建一个新的线程来执行任务。</p>
+<p>如果将线程池中的corePoolSize和maximumPoolSize设置为相同的数（也就是说线程池中所有线程都是核心线程），那么该线程池就是一个固定容量的池子。如果将线程池的maximumPoolSize设置为一个非常大的数值（例如Integer.MAX_VALUE），那么相当于允许线程池自己在不同时段调整参与并发的总任务数。通常情况下，都是通过构造函数去初始化corePoolSize和maximumPoolSize，也可以通过set方法调整这两个参数的大小。</p>
+<h4 id="3-keepAliveTime-amp-unit"><a href="#3-keepAliveTime-amp-unit" class="headerlink" title="3.keepAliveTime &amp; unit"></a>3.keepAliveTime &amp; unit</h4><p>keepAliveTime表示空闲线程处于等待的超时时间，超过该时间后该线程会停止工作。当线程池中总线程数量大于corePoolSize并且allowCoreThreadTimeOut为false时，这些多出来的非核心线程一旦进入空闲等待的状态，就开始计算各自的等待时间，并且这里设定的keepAliveTime的数值作为他们的超时时间，一旦某个非核心线程的等待时间到达了超时时间，该线程就会停止工作（terminated）。而如果不去设置allowCoreThreadTimeout为true，核心线程及时处于空闲状态等待了keepAliveTime，也依然可以继续处于空闲状态等待。</p>
+<p><strong>比较好的应用实践：</strong></p>
+<p><strong>如果要执行的任务相对较多，并且每个任务执行的时间都比较短，那么可以为keepAliveTime参数设置一个相对较大的值，以提高线程的利用率；如果要执行的任务比较少，线程池使用率比较低，那么可以先将该参数设置为一个较小的参数值，通过超时停机的机制来降低系统资源的开销。</strong></p>
+<p>注意一点：构造函数中的参数keepAliveTime和unit这个参数和ThreadPoolExecutor中的keepAliveTime字段的值不一定相等，字段被设置为long型的值，且定义为纳秒的单位，构造函数中的参数还有unit单位，应该是keepAliveTime和unit计算的结果换算为纳秒才和类中的字段是一样的值。</p>
+<p>keepAliveTime在构造函数中的类型是long型，这样保证了这个值不会太短。</p>
+<h4 id="4-workQueue"><a href="#4-workQueue" class="headerlink" title="4.workQueue"></a>4.workQueue</h4><p>构造函数中的workQueue是一个BlockIngQueue（阻塞队列）的实例。传入的泛型参数是Runnable，也就是说，workQueue是一个内部元素为Runnable（各种任务，通常是异步的任务）的阻塞队列。阻塞队列是一种类似于”生产者-消费者“模式的队列，当队列已满时如果继续向队列中插入元素，该插入操作将被阻塞一直处于等待状态，直到队列中有元素被移除，才能进行插入操作；当队列为空时如果继续执行元素的删除或者获取操作，也会被阻塞进入等待队列中有新的元素之后才能执行。</p>
+<p>workQueue是一个用于保存等待执行的任务阻塞队列，当提交一个新的任务到线程池后，线程池会根据当前池子正在运行的线程数量来判断对这个任务的处理方式：</p>
+<p>（1）如果线程池中正在运行的线程数少于核心线程数，那么线程池总是倾向于新建一个线程来执行该任务。</p>
+<p>（2）如果线程池中正在运行的线程数不少于核心线程数，那么线程池把该任务提交到workQueue中让其先等待</p>
+<p>（3）如果线程池中正在运行的线程数不少于核心线程数，并且线程池中的阻塞队列也满了使得该任务入队失败，那么线程池会去判断当前池子中运行的线程数是否已经等于了该线程池允许运行的最大线程数。如果发现已经等于，说明池子已满，那么就会执行拒绝策略；如果发现运行的线程数小于池子允许的最大线程数，那么会创建一个线程（这个线程是非核心线程）来执行该任务。</p>
+<p>这其中，队列对于提交的任务一般有三种策略：<br><strong>（1）直接切换</strong></p>
+<p>常用的队列是SynchronousQueue（同步队列）,这个队列内部不会存储元素，每一次插入操作都会先进入阻塞状态，一直等到另一个线程执行了队列的删除操作，然后该插入操作才会执行。当提交一个任务到包含这种SynchronousQueue队列的线程池后，线程池会去检测是否有可用的线程来执行任务，如果没有则创建一个新的线程来执行任务而不是将任务存储在任务队列中。”直接切换“的意思是：处理方式由”将该任务暂时存储在阻塞队列中“直接切换为”新建一个线程来处理任务“。这种执行策略适合处理多个有相互依赖关系的任务，因为该策略可以避免这些任务因一个没有及时处理而导致依赖于该任务的其他任务也不能及时处理而造成的锁定结果。因为这种策略的目的是要让几乎每一个新提交的任务都能立即得到处理，所以这种策略通常配合maximumPoolSize是无边际（Integer.MAX_VALUE）的。我们知道的静态工厂方法Executors.newCachedThreadPool()就是使用了这种直接切换的队列。</p>
+<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-142301@2x.png" alt=""></p>
+<p><strong>（2）使用无界队列</strong></p>
+<p>不预设队列的容量，队列将使用Integer.MAX_VALUE作为默认容量，例如：基于链表的阻塞队列 LinkedBlockingQueue。使用无界队列使得线程池中能创建的最大线程数等于核心线程数，这样的线程池的maxmumPoolSize的数值将不起任何作用。如果向线程池中提交一个新任务时发现所有的核心线程都处于运行状态，那么该任务将被放入无界队列中等待处理。当要处理的多个任务之间没有相互依赖关系的时候，就适合用这种队列策略来处理这些任务。静态工厂方法Executors.newFixedThreadPool()就使用了这个队列。</p>
+<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-142551@2x.png" alt=""></p>
+<p><strong>（3）使用有界队列</strong></p>
+<p>例如使用基于数组的阻塞队列 ArrayBlockingQueue。当要求线程池的最大线程数maximumPoolSize要限定在某个值以内的时候，线程池使用有界队列能降低资源的消耗，但这也使得线程池对线程的调控变得更加困难。因为队列容量和线程池容量都是有限的值，要想使线程处理任务的吞吐量在一个相对合理的范围内，同时又能使线程调度的难度相对较低，并且又尽可能节省系统资源的消耗，那么需要合理的调配这两个值。通常来说，设置较大的队列容量和较小的线程池容量，能够降低系统的资源的消耗（包括CPU的使用率，操作系统的消耗，上下文环境的切换的开销等），但是会降低系统吞吐率。如果发现提交的任务经常频繁的发生阻塞的情况，那么你可以考虑增大线程池的容量，可以通过setMaximumPoolSize()方法来重新设定线程池的容量。而设置较小的队列量时，通常需要将线程池的容量设置大一点，这种情况下，cpu的使用率会比较高，但是如果设置线程池的容量过大的时候，线程调度成了问题，反而使得吞吐率比较低。</p>
+<h4 id="5-threadFactory"><a href="#5-threadFactory" class="headerlink" title="5.threadFactory"></a>5.threadFactory</h4><p>线程工厂，用于创建线程。默认使用Executors.defaultThreadFactory()方法创建线程工厂：</p>
+<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-143149@2x.png" alt=""></p>
+<p>当然我们也可以自己实现ThreadFactory接口去实现我们自己的线程工厂。下边就是可以根据不同的namePrefix去获取单例线程的线程工厂：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 自定义线程工厂类</span><br><span class="line"> */</span><br><span class="line">private static class MyThreadFactory implements ThreadFactory &#123;</span><br><span class="line">    /**</span><br><span class="line">     * namePrefix --&gt; 线程名字中的计数</span><br><span class="line">     */</span><br><span class="line">    private static Map&lt;String, AtomicInteger&gt; THREAD_ID_TABLE = new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    /**</span><br><span class="line">     * 线程名称前缀</span><br><span class="line">     */</span><br><span class="line">    private String namePrefix;</span><br><span class="line">    /**</span><br><span class="line">     * 是否后台线程</span><br><span class="line">     */</span><br><span class="line">    private boolean isDamon;</span><br><span class="line">    public MyThreadFactory(String namePrefix) &#123;</span><br><span class="line">        this(namePrefix, true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MyThreadFactory(String namePrefix, boolean isDamon) &#123;</span><br><span class="line">        this.namePrefix = namePrefix;</span><br><span class="line">        this.isDamon = isDamon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Thread newThread(Runnable r) &#123;</span><br><span class="line">        String threadName = namePrefix + &quot;-&quot; + generateThreadId(this.namePrefix);</span><br><span class="line">        Thread thread = new Thread(r, threadName);</span><br><span class="line">        thread.setDaemon(this.isDamon);</span><br><span class="line">        System.out.println(&quot;创建线程&quot; + threadName);</span><br><span class="line">        return thread;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int generateThreadId(String namePrefix) &#123;</span><br><span class="line"></span><br><span class="line">        // 判断后执行 concurrentHashMap不能保证完全线程安全 用了putIfAbsent</span><br><span class="line">        if (!THREAD_ID_TABLE.containsKey(namePrefix)) &#123;</span><br><span class="line">            THREAD_ID_TABLE.putIfAbsent(namePrefix, new AtomicInteger(0));</span><br><span class="line">        &#125;</span><br><span class="line">        return THREAD_ID_TABLE.get(namePrefix).getAndIncrement();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-handler"><a href="#6-handler" class="headerlink" title="6.handler"></a>6.handler</h4><p>当满足以下两个条件其中一个的时候，如果继续向线程池中提交新的任务，那么线程池会调用内部的RejectedExecutionHandler对象的rejectedExecution()方法，表示拒绝执行这些新提交的任务：</p>
+<p><strong>（1）当线程池处于SHUTDOWN状态时（不论线程池和阻塞队列是否已满）</strong></p>
+<p><strong>（2）当线程池中所有的线程都处于运行状态并且线程池中的阻塞队列已满。</strong></p>
+<p>一个demo去演示这两个情况：<a href="https://github.com/zhanglijun1217/juc/blob/master/src/threadPool/ThreadPoolExecutorRejectNewTaskDemo.java" target="_blank" rel="noopener">执行handler的两种情况</a></p>
+<p>当采用默认的拒绝策略，线程池会使用抛出异常的方式来拒绝新任务的提交，这种拒绝方式在线程池中被称为AbortPolicy，我们可以来看下有哪些拒绝策略：<br><strong>（1）AbortPolicy</strong></p>
+<p>这中处理方式是直接抛出RejectedExecutionException异常，如果在ThreadPoolExecutor的构造函数中未指定RejectedExecutionHandler参数，那么线程池将使用defaultHandler参数，而这个就是采用的AbortPolicy。</p>
+<p><strong>（2）CallerRunsPolicy</strong></p>
+<p>将提交的任务放在ThreadPoolExecutor.execute()方法所在的那个线程执行。</p>
+<p><strong>（3）DiscardPolicy</strong></p>
+<p>直接不执行新提交的任务</p>
+<p><strong>（4）DiscardOldestPolicy</strong></p>
+<p>这个可以看源码中的解释：</p>
+<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20181013-150858@2x.png" alt=""></p>
+<p>由源码就可以知道，这种处理方式有两种情况：一，当线程池处于SHUTDOWN状态时，就默认不执行这个任务，即DiscardPolicy；二，当线程池处于运行状态时，会将队列中处于队首（head）的那个任务从队列中移除，然后将这个新提交的任务加入到阻塞队列中的队尾（tail）等待执行。</p>
+<p>当然，RejectedExecutionHandler其实是个接口，我们可以自定义类去实现这个接口，重写rejectedExecution方法使用自己想要的拒绝策略即可。</p>
+<h2 id="下一篇"><a href="#下一篇" class="headerlink" title="下一篇"></a>下一篇</h2><p>这篇把线程池中的核心参数进行了一些解释，在下一篇中我们将介绍线程池进行任务调度的原理。</p>
 
       
     </div>
@@ -479,12 +527,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/blog/2018/08/02/设计模式——策略模式/">设计模式——策略模式</a></p>
+  <p><span>本文标题:</span><a href="/blog/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/">并发编程——ThreadPoolExecutor源码分析（二）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
-  <p><span>发布时间:</span>2018年08月02日 - 14:08</p>
-  <p><span>最后更新:</span>2018年08月02日 - 15:08</p>
-  <p><span>原始链接:</span><a href="/blog/2018/08/02/设计模式——策略模式/" title="设计模式——策略模式">https://zhanglijun1217.github.io/2018/08/02/设计模式——策略模式/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/02/设计模式——策略模式/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年10月11日 - 23:10</p>
+  <p><span>最后更新:</span>2018年10月13日 - 15:10</p>
+  <p><span>原始链接:</span><a href="/blog/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/" title="并发编程——ThreadPoolExecutor源码分析（二）">https://zhanglijun1217.github.io/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/10/11/并发编程——ThreadPoolExecutor源码分析（二）/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -516,7 +564,9 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/blog/tags/并发编程/" rel="tag"># 并发编程</a>
+          
+            <a href="/blog/tags/ThreadPoolExecutor/" rel="tag"># ThreadPoolExecutor</a>
           
         </div>
       
@@ -529,8 +579,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2018/08/02/orika转换bean的字段丢失/" rel="next" title="orika转换bean的字段丢失">
-                <i class="fa fa-chevron-left"></i> orika转换bean的字段丢失
+              <a href="/blog/2018/10/10/java8增加的接口中默认方法/" rel="next" title="java8增加的接口中默认方法">
+                <i class="fa fa-chevron-left"></i> java8增加的接口中默认方法
               </a>
             
           </div>
@@ -538,10 +588,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/08/02/并发编程——线程基础/" rel="prev" title="并发编程——线程基础（一）">
-                并发编程——线程基础（一） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -704,7 +750,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式"><span class="nav-number">1.</span> <span class="nav-text">策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例"><span class="nav-number">1.1.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github"><span class="nav-number">1.2.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">1.3.</span> <span class="nav-text">引用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数中的参数"><span class="nav-number">2.1.</span> <span class="nav-text">构造函数中的参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-corePoolSize"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.corePoolSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-maximumPoolSize"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.maximumPoolSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-keepAliveTime-amp-unit"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.keepAliveTime &amp; unit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-workQueue"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.workQueue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-threadFactory"><span class="nav-number">2.1.5.</span> <span class="nav-text">5.threadFactory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-handler"><span class="nav-number">2.1.6.</span> <span class="nav-text">6.handler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一篇"><span class="nav-number">3.</span> <span class="nav-text">下一篇</span></a></li></ol></div>
             
 
           </div>
