@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[守护线程和非守护线程]]></title>
+    <url>%2Fblog%2F2018%2F11%2F26%2F%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%9D%9E%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsoles线程池中的线程都处于waiting状态。]]></content>
+      <categories>
+        <category>并发编程</category>
+        <category>并发基础</category>
+      </categories>
+      <tags>
+        <tag>守护线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[url拼接参数问题]]></title>
     <url>%2Fblog%2F2018%2F11%2F23%2Furl%E6%8B%BC%E6%8E%A5%E5%8F%82%E6%95%B0%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[问题现象在最近的开发过程中要根据一堆id值去删除ES中的数据，就写了一个脚本接口，传入了idList。这里选择的是GET方式的接口，将idList以逗号分隔当做字符串传入当做参数，然后在接口中转换成List类型再对ES进行操作。 脚本代码这个接口中的process是为了控制是否真正执行刷数据的逻辑，在一些刷数据的接口中加入这个参数，可以去在真正去刷数据之前，去看看捞出来的数据是否正确，然后再进行刷数据的逻辑。 1234567891011121314151617181920212223242526272829303132333435363738@GetMapping(value = "/es/fix/removeNotConsumerData")@ResponseBodypublic boolean removeNotConsumerData(@RequestParam(value = "kdtIdList") String kdtIdListString, @RequestParam(value = "process", defaultValue = "false") boolean process) &#123; List&lt;Long&gt; kdtIdList = Arrays.stream(kdtIdListString.split(",")).map(Long::parseLong).collect(Collectors.toList()); log.info("要刷的数据是：&#123;&#125;", JSON.toJSONString(kdtIdList)); if (!process) &#123; return true; &#125; Set&lt;Long&gt; successSet = Sets.newHashSet(); Set&lt;Long&gt; failSet = Sets.newHashSet(); for (Long kdtId : kdtIdList) &#123; try &#123; ESResult esResult = esSyncHelper.deleteDoc(EsConstant.ESV5_TEAM_INDEX, EsConstant.ESV5_TEAM_TYPE, kdtId.toString(), ESResult.class); Thread.sleep(200); if (AppConstant.SUCCESS != esResult.getCode()) &#123; log.warn("刷数据失败,kdtId=&#123;&#125;, msg:&#123;&#125;", kdtId, esResult.getMessage()); failSet.add(kdtId); &#125; else &#123; successSet.add(kdtId); &#125; &#125; catch (Throwable e) &#123; log.warn("刷数据异常, kdtId=&#123;&#125;", kdtId, e); failSet.add(kdtId); &#125; &#125; if (kdtIdList.size() != successSet.size()) &#123; log.warn("有数据删除失败, failSet=&#123;&#125;", JSON.toJSONString(failSet)); return false; &#125; else &#123; return true; &#125;&#125; 这里在机器上进行跑的时候，先去跑了单个id数据，发现是没有问题的。之后就想一把梭去将数据跑完，就把整个id集合数据放入了url要传入的参数之中，这个时候发现出现了问题。 在数据的最后一条id值被截断了，只是去截止到了42122，所以这个会被转为42122存入要刷的id集合中。这个就可能去刷错了数据（所以之前的process参数还是很有用的 = =）。 这里有个比较稳的解决方案是要刷的数据可以把文件放在resource目录下，然后通过读取这个文件的内容直接去去刷数据，这样就不会存在这个问题了。这里去简单记录下这次参数被截断的过程。]]></content>

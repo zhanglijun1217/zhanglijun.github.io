@@ -4,6 +4,29 @@
 
     
   <url>
+    <loc>https://zhanglijun1217.github.io/blog/2018/11/26/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%9D%9E%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2018-11-25T17:15:26.976Z</lastmod>
+    <data>
+        <display>
+        <title>守护线程和非守护线程</title>
+        <pubTime>2018-11-25T17:09:04.000Z</pubTime>
+        
+        <tag>守护线程</tag>
+         
+         
+           
+             
+              <breadCrumb title="并发编程" url="https://zhanglijun1217.github.io/blog/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+          
+             
+              <breadCrumb title="并发基础" url="https://zhanglijun1217.github.io/blog/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://zhanglijun1217.github.io/blog/2018/11/23/url%E6%8B%BC%E6%8E%A5%E5%8F%82%E6%95%B0%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2018-11-24T18:16:21.597Z</lastmod>
     <data>
