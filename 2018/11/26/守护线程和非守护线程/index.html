@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsoles线程池中的线程都处于waiting状态。">
+<meta name="description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsole线程池中的线程都处于waiting状态。这里是跟我设置线程池的线程工厂中的设置线程是否为后台线程有关。">
 <meta name="keywords" content="守护线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="守护线程和非守护线程">
+<meta property="og:title" content="并发编程——并发基础：守护线程和非守护线程">
 <meta property="og:url" content="https://zhanglijun1217.github.io/2018/11/26/守护线程和非守护线程/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsoles线程池中的线程都处于waiting状态。">
+<meta property="og:description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsole线程池中的线程都处于waiting状态。这里是跟我设置线程池的线程工厂中的设置线程是否为后台线程有关。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-25T17:15:26.976Z">
+<meta property="og:updated_time" content="2018-11-26T16:40:24.843Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="守护线程和非守护线程">
-<meta name="twitter:description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsoles线程池中的线程都处于waiting状态。">
+<meta name="twitter:title" content="并发编程——并发基础：守护线程和非守护线程">
+<meta name="twitter:description" content="前言最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsole线程池中的线程都处于waiting状态。这里是跟我设置线程池的线程工厂中的设置线程是否为后台线程有关。">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>守护线程和非守护线程 | 张利君的博客</title>
+  <title>并发编程——并发基础：守护线程和非守护线程 | 张利君的博客</title>
   
 
 
@@ -315,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">守护线程和非守护线程</h1>
+          <h1 class="post-title" itemprop="name headline">并发编程——并发基础：守护线程和非守护线程</h1>
         
 
         <div class="post-meta">
@@ -378,7 +378,7 @@
 
           
           
-             <span id="/blog/2018/11/26/守护线程和非守护线程/" class="leancloud_visitors" data-flag-title="守护线程和非守护线程">
+             <span id="/blog/2018/11/26/守护线程和非守护线程/" class="leancloud_visitors" data-flag-title="并发编程——并发基础：守护线程和非守护线程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  56
+                  1,540
                 </span>
               
 
@@ -420,7 +420,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -441,8 +441,24 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsoles线程池中的线程都处于waiting状态。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在复习的时候，发现一个运行线程池拒绝策略demo中的main方法在运行了之后，进程并没有关闭。看了jconsole线程池中的线程都处于waiting状态。这里是跟我设置线程池的线程工厂中的设置线程是否为后台线程有关。</p>
 <a id="more"></a>
+<h2 id="后台线程和非后台线程"><a href="#后台线程和非后台线程" class="headerlink" title="后台线程和非后台线程"></a>后台线程和非后台线程</h2><p>后台线程，也叫守护线程，指的是在程序运行的时候后台提供一种通用服务的线程，比如jvm里垃圾回收线程，这种线程并不属于程序中不可或缺的部分。因此，当所有的非守护线程结束时，程序也就终止了，同时会杀死进程中的所有守护线程。反过来说，只要有任何非守护线程在运行，程序就不会终止。</p>
+<p>守护线程和非守护线程的区别：在于jvm的离开：如果用户线程（非守护线程）已经全部退出运行了，只剩下守护线程存在，那么虚拟机也就退出了。因为没了被守护者，守护线程也就没有工作可做了。</p>
+<p>设置守护线程是通过调用Thread对象的setDaemon(true)方法来实现的。在使用守护线程的时候需要注意以下几点：</p>
+<p>（1）thread.setDeaemon(true)必须在thread.start()之前设置，否则会报错IllegalThreadStateException</p>
+<p>（2）在Daemon线程中产生的线程也是Daemon的。</p>
+<p>（3）守护线程应该永远不去访问固有资源，如文件、数据库，因为它会在任何时候甚至在一个操作的中间发生终端。</p>
+<h3 id="不退出程序的代码"><a href="#不退出程序的代码" class="headerlink" title="不退出程序的代码"></a>不退出程序的代码</h3><p>这里在main方法结束之后不能正常退出的代码是测试了线程池两种抛出拒绝策略的场景：</p>
+<p>（1）线程池处于SHUTDOWN状态时，再提交新的任务到线程池</p>
+<p>（2）线程池中所有的线程都处于运行状态，并且阻塞队列已满，这时再去提交新的线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolExecutorRejectNewTaskDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程池的最大容量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_POOL_SIZE = <span class="number">3</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 阻塞队列的容量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> QUEUE_CAPACITY = <span class="number">2</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 非核心线程处于空闲状态的最长时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> KEEP_ALIVE_TIME = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程池对象 注意这里传入的是默认的拒绝策略 也就是AbortPolicy</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadPoolExecutor threadPool = <span class="keyword">new</span> ThreadPoolExecutor(MAX_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME,</span><br><span class="line">            TimeUnit.SECONDS, <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(QUEUE_CAPACITY), <span class="keyword">new</span> MyThreadFactory(<span class="string">"task-reject"</span>));</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        shutdownThreadPoolToRejectNewTask();</span></span><br><span class="line">        fullQueueThreadPoolRejectNewTask();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟线程池被关闭之后， 继续向其中提交新任务被拒绝的场景</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shutdownThreadPoolToRejectNewTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MyRunnable runnable = <span class="keyword">new</span> MyRunnable();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 先提交 MAX_POOL_SIZE - 1个任务，此时线程池未满</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; MAX_POOL_SIZE - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"提交任务 "</span> + i);</span><br><span class="line">            threadPool.submit(runnable);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 在线程池未满的情况下关闭线程池</span></span><br><span class="line">        threadPool.shutdown();</span><br><span class="line">        <span class="keyword">if</span> (threadPool.isShutdown()) &#123;</span><br><span class="line">            System.out.println(<span class="string">"提交任务"</span> + MAX_POOL_SIZE);</span><br><span class="line">            <span class="comment">// 在线程池未满 但却关闭的情况下去提交任务 此时会拒绝</span></span><br><span class="line">            threadPool.submit(runnable);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟线程池中线程数都在运行并且阻塞队列已满</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fullQueueThreadPoolRejectNewTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MyRunnable myRunnable = <span class="keyword">new</span> MyRunnable();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 提交 MAX_POOL_SIZE + QUEUE_SIZE 个任务 使得线程池线程都在执行任务并且阻塞队列已满</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; MAX_POOL_SIZE + QUEUE_CAPACITY; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"提交任务 "</span> + i);</span><br><span class="line">            threadPool.submit(myRunnable);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 此时再去往其中添加 任务</span></span><br><span class="line">        <span class="keyword">if</span> (threadPool.getActiveCount() == MAX_POOL_SIZE &amp;&amp; threadPool.getQueue().size() == QUEUE_CAPACITY) &#123;</span><br><span class="line">            threadPool.submit(myRunnable);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 自定义线程工厂类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * namePrefix --&gt; 线程名字中的计数</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, AtomicInteger&gt; THREAD_ID_TABLE = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 线程名称前缀</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> String namePrefix;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 是否后台线程</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> isDamon;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyThreadFactory</span><span class="params">(String namePrefix)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(namePrefix, <span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyThreadFactory</span><span class="params">(String namePrefix, <span class="keyword">boolean</span> isDamon)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.namePrefix = namePrefix;</span><br><span class="line">            <span class="keyword">this</span>.isDamon = isDamon;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">            String threadName = namePrefix + <span class="string">"-"</span> + generateThreadId(<span class="keyword">this</span>.namePrefix);</span><br><span class="line">            Thread thread = <span class="keyword">new</span> Thread(r, threadName);</span><br><span class="line">            thread.setDaemon(<span class="keyword">this</span>.isDamon);</span><br><span class="line">            System.out.println(<span class="string">"创建线程"</span> + threadName);</span><br><span class="line">            <span class="keyword">return</span> thread;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">generateThreadId</span><span class="params">(String namePrefix)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!THREAD_ID_TABLE.containsKey(namePrefix)) &#123;</span><br><span class="line">                THREAD_ID_TABLE.putIfAbsent(namePrefix, <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> THREAD_ID_TABLE.get(namePrefix).getAndIncrement();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向线程池提交的任务</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码中创建新线程的线程工厂中设置了线程池中的线程是否为非后台线程，这里设置的是非后台线程，在我们运行main方法之后，即可观察到main方法一直没退出，而线程池中的线程都处于waiting状态。（这里需要设置下不达到拒绝策略的条件，比如去掉达到拒绝策略的条件之后不再提交任务），这里只是复现这个程序不退出的场景。这里只要把新创建的线程设置为后台线程，当main方法结束之后，线程池中的线程都是守护线程，会随着用户线程的结束也被结束掉。</p>
+<p>同样的，我们可以看下Executors提供的一些工具线程池，比如Executors.newFixedThreadPool(int nThreads)</p>
+<p>它的构造是使用的默认的线程工厂，我们可以看看默认线程工厂中线程的设置是否为后台线程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The default thread factory</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger poolNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ThreadGroup group;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger threadNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String namePrefix;</span><br><span class="line"></span><br><span class="line">    DefaultThreadFactory() &#123;</span><br><span class="line">        SecurityManager s = System.getSecurityManager();</span><br><span class="line">        group = (s != <span class="keyword">null</span>) ? s.getThreadGroup() :</span><br><span class="line">                              Thread.currentThread().getThreadGroup();</span><br><span class="line">        namePrefix = <span class="string">"pool-"</span> +</span><br><span class="line">                      poolNumber.getAndIncrement() +</span><br><span class="line">                     <span class="string">"-thread-"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">        Thread t = <span class="keyword">new</span> Thread(group, r,</span><br><span class="line">                              namePrefix + threadNumber.getAndIncrement(),</span><br><span class="line">                              <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (t.isDaemon())</span><br><span class="line">            t.setDaemon(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (t.getPriority() != Thread.NORM_PRIORITY)</span><br><span class="line">            t.setPriority(Thread.NORM_PRIORITY);</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到默认的线程工厂在创建新的线程的时候也是设置daemon为false，这使得定长线程池中都是用户线程，这些个在主线程结束之后，也会使程序不能退出。</p>
+
       
     </div>
     
@@ -469,11 +485,11 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/blog/2018/11/26/守护线程和非守护线程/">守护线程和非守护线程</a></p>
+  <p><span>本文标题:</span><a href="/blog/2018/11/26/守护线程和非守护线程/">并发编程——并发基础：守护线程和非守护线程</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年11月26日 - 01:11</p>
-  <p><span>最后更新:</span>2018年11月26日 - 01:11</p>
-  <p><span>原始链接:</span><a href="/blog/2018/11/26/守护线程和非守护线程/" title="守护线程和非守护线程">https://zhanglijun1217.github.io/2018/11/26/守护线程和非守护线程/</a>
+  <p><span>最后更新:</span>2018年11月27日 - 00:11</p>
+  <p><span>原始链接:</span><a href="/blog/2018/11/26/守护线程和非守护线程/" title="并发编程——并发基础：守护线程和非守护线程">https://zhanglijun1217.github.io/2018/11/26/守护线程和非守护线程/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/11/26/守护线程和非守护线程/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
@@ -690,7 +706,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台线程和非后台线程"><span class="nav-number">2.</span> <span class="nav-text">后台线程和非后台线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不退出程序的代码"><span class="nav-number">2.1.</span> <span class="nav-text">不退出程序的代码</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -725,7 +741,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">30.8k</span>
+    <span title="Site words total count">32.3k</span>
   
 </div>
 
@@ -753,7 +769,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共30.8k字</span>
+  <span class="post-count">博客全站共32.3k字</span>
 </div>
 
         
