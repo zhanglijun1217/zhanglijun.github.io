@@ -3,7 +3,14 @@
   <entry>
     <title><![CDATA[java平台与java是解释执行的正确性]]></title>
     <url>%2Fblog%2F2018%2F11%2F30%2Fjava%E5%B9%B3%E5%8F%B0%E4%B8%8Ejava%E6%98%AF%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[背景最近看了一点点极客时间上的《Java核心技术36讲》，打算把一些自己感兴趣或者不知道的点总结到博客中，方便对一些知识有一些整理和拾遗。 Java平台性的理解]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>Java平台</tag>
+        <tag>解释执行、编译执行</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[并发编程——并发基础：守护线程和非守护线程]]></title>
