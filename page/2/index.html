@@ -851,13 +851,13 @@
           
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇去写一些最近在工作中get到的关于vi/vim命令的点，简单去记录下。</p>
 <h2 id="技能点"><a href="#技能点" class="headerlink" title="技能点"></a>技能点</h2><h3 id="在文件中快速删除一行"><a href="#在文件中快速删除一行" class="headerlink" title="在文件中快速删除一行"></a>在文件中快速删除一行</h3><p>在vi编辑文件的时候，发现有时要删除很多的文件内容，这个时候去一点点删除很慢，这里get到了一个快速删除一行的技能。在打开的文件中所要删除的行连续按两次d就可以快速删除一行，然后在用:wq保存即可。</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222039.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005303936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h3 id="解决没有正确关闭vi打开的文件"><a href="#解决没有正确关闭vi打开的文件" class="headerlink" title="解决没有正确关闭vi打开的文件"></a>解决没有正确关闭vi打开的文件</h3><p>有的时候我们在查看一个文件之后，直接ctrl+z去退出了文件，当我们再用vim命令去编辑文件的时候，这时候会发现报一个没有正确关闭这个文件的冲突错误，并且你不去解决就会一直存在。</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222548.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005248626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>这里get到了去解决的方法，其实也是怪自己一看到一堆英文就不想看下去，这里其实已经写得很清楚了，这里提供了两种情况：</p>
 <p>（1）有可能另一个人也在编辑这个文件，它提醒你要注意两个人同时编辑不同的地方。</p>
 <p>（2）上一次编辑的session还在，这时候提供了解决办法：可以用recover或者vim -r 文件名去修复这个changes。</p>
-<p>可以看到当你没正确退出时，还保持着edit session，这时候会生成两个临时文件，我这里采用的是直接删除这两个文件即可。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-223131.png" alt=""></p>
+<p>可以看到当你没正确退出时，还保持着edit session，这时候会生成两个临时文件，我这里采用的是直接删除这两个文件即可。<br><img src="https://img-blog.csdnimg.cn/20181203005235670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>运行 rm -rf .fileName.* 命令之后，再次打开之后就不会有冲突。 </p>
 
           
@@ -1678,10 +1678,13 @@
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>spring boot的一大特性就是自带的actuator。它是spring-boot框架提供的对应系统的自省和监控的集成功能，可以对系统进行配置查看、相关功能统计等。</p>
 <h2 id="actuator的使用"><a href="#actuator的使用" class="headerlink" title="actuator的使用"></a>actuator的使用</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="配置文件的配置"><a href="#配置文件的配置" class="headerlink" title="配置文件的配置"></a>配置文件的配置</h3><ul>
-<li>management.port:指定访问监控防范的端口，这个端口应该与逻辑端口分离。如果不想使actuator暴露在http中，可以设置这个端口为-1。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180826-202547@2x.png" alt=""></li>
-<li>management.address：指定地址，比如只能通过本机监控，可以设置 management.address = 127.0.0.1<br>启动项目，可以看到actuator启动在了配置的7002端口，并且提供了可以访问其中的一些endPoints。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WechatIMG69.jpeg" alt=""></li>
+<li>management.port:指定访问监控防范的端口，这个端口应该与逻辑端口分离。如果不想使actuator暴露在http中，可以设置这个端口为7002。<br><img src="https://img-blog.csdnimg.cn/20181203003653424.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>management.address：指定地址，比如只能通过本机监控，可以设置 management.address = 127.0.0.1<br>启动项目，可以看到actuator启动在了配置的7002端口，并且提供了可以访问其中的一些endPoints。<br><img src="https://img-blog.csdnimg.cn/20181203003701603.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
 </ul>
-<h3 id="一些主要的EndPoints"><a href="#一些主要的EndPoints" class="headerlink" title="一些主要的EndPoints"></a>一些主要的EndPoints</h3><p>spring-boot提供了一些常用的EndPoints<br><img src="http://pcsb3jzo3.bkt.clouddn.com/20170213112756666.png" alt=""><br>其中鉴权为true的表示访问这些endPoints是需要保护的不能随意进行访问的。如果要取消，可以设置关闭鉴权（低版本的spring-boot没有提供鉴权）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">management.security.enable=false</span><br></pre></td></tr></table></figure></p>
+<h3 id="一些主要的EndPoints"><a href="#一些主要的EndPoints" class="headerlink" title="一些主要的EndPoints"></a>一些主要的EndPoints</h3><p>spring-boot提供了一些常用的EndPoints</p>
+<p><img src="https://img-blog.csdnimg.cn/20181203003710947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>其中鉴权为true的表示访问这些endPoints是需要保护的不能随意进行访问的。如果要取消，可以设置关闭鉴权（低版本的spring-boot没有提供鉴权）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">management.security.enable=false</span><br></pre></td></tr></table></figure>
 <h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><p>可以看到这个监控和自省的功能是十分有用的，可以看到bean信息、dump信息、mapping信息和访问链路信息等，所以这个功能在官方文档中也说的很清楚，我们也可以通过实现HealthIndicator接口，编写自己的health接口，也可以增加自己的监控接口。<br>具体的还可以看一下官方文档 <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank" rel="noopener">acautor文档</a></p>
 
           
@@ -2093,7 +2096,7 @@
 
       
         
-          <h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><p>ThreadLocal是早期jdk版本中就有的一个工具，基本原理是同一个ThreadLocal所包含的对象（对ThreadLocal<string>而言即为String类型变量），在不同的Thread中有不同的副本（实际是不同的实例）。这里有几点需要注意：<br>
+          <h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><p>ThreadLocal是早期jdk版本中就有的一个工具，基本原理是同一个ThreadLocal所包含的对象（对ThreadLocal<string>而言即为String类型变量），在不同的Thread中有不同的副本（实际是不同的实例）。这里有几点需要注意：<br>​
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/blog/2018/08/16/并发编程——ThreadLocal总结/#more" rel="contents">

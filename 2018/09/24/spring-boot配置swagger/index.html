@@ -87,13 +87,13 @@
 <meta property="og:site_name" content="张利君的博客">
 <meta property="og:description" content="前言swagger是一个很好的restful形式的api文档，可以通过比较小的侵入来提供很好的restful的文档。因为swagger是依赖服务生成的，所以其实是依赖服务的，这也算是它的一个小缺点吧。但是其实如果一个项目习惯去手写文档之后，也是可以的，但是新的项目还是建议去用一些自动生成的文档，省去了很多麻烦。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180924-155528.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180924-160428.png">
-<meta property="og:updated_time" content="2018-10-10T16:28:14.804Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203005521880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203005511537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2018-12-02T16:57:31.537Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot配置swagger">
 <meta name="twitter:description" content="前言swagger是一个很好的restful形式的api文档，可以通过比较小的侵入来提供很好的restful的文档。因为swagger是依赖服务生成的，所以其实是依赖服务的，这也算是它的一个小缺点吧。但是其实如果一个项目习惯去手写文档之后，也是可以的，但是新的项目还是建议去用一些自动生成的文档，省去了很多麻烦。">
-<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180924-155528.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181203005521880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
 
 
 
@@ -451,9 +451,9 @@
 <h3 id="在api和请求参数中使用注解"><a href="#在api和请求参数中使用注解" class="headerlink" title="在api和请求参数中使用注解"></a>在api和请求参数中使用注解</h3><p>接口中使用swagger注解</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@Api(value = &quot;测试swagger&quot;, description = &quot;测试swagger api&quot;)</span><br><span class="line">public class TestSwaggerController &#123;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;返回url中的参数&quot;, notes = &quot;返回url中的参数&quot;)</span><br><span class="line">    @ApiImplicitParam(name = &quot;id&quot;, value = &quot;id值&quot;, paramType = &quot;path&quot;, required = true, dataType = &quot;Integer&quot;)</span><br><span class="line">    @GetMapping(path = &quot;/getUrlParam/&#123;id&#125;&quot;)</span><br><span class="line">    public Integer getUrlParam(@PathVariable(value = &quot;id&quot;) Integer id) &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以访问localhost:port/swagger-ui.html看到生成的swagger文档。可以看到请求结果：</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180924-155528.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005521880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>也可以看到之前post方法的接口也可以生成对于的参数文档，这里也可以对表单参数bean使用@ApiModel和@ApiProperty注解进行标识。</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180924-160428.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005511537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="swagger相关注解和官方文档"><a href="#swagger相关注解和官方文档" class="headerlink" title="swagger相关注解和官方文档"></a>swagger相关注解和官方文档</h2><p>swagger常用注解：</p>
 <ol>
 <li>@Api：修饰整个类，描述controller的作用</li>
@@ -496,7 +496,7 @@
   <p><span>本文标题:</span><a href="/blog/2018/09/24/spring-boot配置swagger/">spring boot配置swagger</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年09月24日 - 02:09</p>
-  <p><span>最后更新:</span>2018年10月11日 - 00:10</p>
+  <p><span>最后更新:</span>2018年12月03日 - 00:12</p>
   <p><span>原始链接:</span><a href="/blog/2018/09/24/spring-boot配置swagger/" title="spring boot配置swagger">https://zhanglijun1217.github.io/2018/09/24/spring-boot配置swagger/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/09/24/spring-boot配置swagger/"  aria-label="复制成功！"></i></span>
   </p>

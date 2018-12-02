@@ -87,18 +87,18 @@
 <meta property="og:site_name" content="张利君的博客">
 <meta property="og:description" content="前言在最近的工作中遇到了一个做一个导出功能时遇到了一个很奇怪的事情，逻辑是先做一个export方法上传到文件服务器上，然后重定向到一个doExport方法中，这个doExport方法中是去判断这个文件是否生成（之前生成Excel文件是异步线程生成的），如果没有生成，则转到一个export.ftl的freemarker页面，这个页面中去不断reload去调用这个doExport方法，直到导出了文件。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-121930@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-122059@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123337@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123727@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123931@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-124314@2x.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-125046.png">
-<meta property="og:updated_time" content="2018-10-10T16:31:49.653Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004013645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004033317.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004045615.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004103884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004150880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004206983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203004308698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2018-12-02T16:51:22.727Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次freemarker错误排查">
 <meta name="twitter:description" content="前言在最近的工作中遇到了一个做一个导出功能时遇到了一个很奇怪的事情，逻辑是先做一个export方法上传到文件服务器上，然后重定向到一个doExport方法中，这个doExport方法中是去判断这个文件是否生成（之前生成Excel文件是异步线程生成的），如果没有生成，则转到一个export.ftl的freemarker页面，这个页面中去不断reload去调用这个doExport方法，直到导出了文件。">
-<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-121930@2x.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181203004013645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
 
 
 
@@ -441,20 +441,20 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在最近的工作中遇到了一个做一个导出功能时遇到了一个很奇怪的事情，逻辑是先做一个export方法上传到文件服务器上，然后重定向到一个doExport方法中，这个doExport方法中是去判断这个文件是否生成（之前生成Excel文件是异步线程生成的），如果没有生成，则转到一个export.ftl的freemarker页面，这个页面中去不断reload去调用这个doExport方法，直到导出了文件。但是在本地测试的时候，总发现doExport方法会无限的将请求再转发到export方法中，然后就一直产生了无限重定向，在浏览器中会有报无限重定向而给拦截掉。</p>
 <a id="more"></a>
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>两个controller：</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-121930@2x.png" alt="export"></p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-122059@2x.png" alt="doExport"></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004013645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004033317.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>模板文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;报表导出&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div style=&quot; border:1px solid #ccc; margin:200px auto; height:70px;background:#eee;padding:40px;color:green;text-align:center;&quot;&gt;</span><br><span class="line">正在生成报表，请耐心等待...</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    setTimeout(&quot;location.reload()&quot;, 1000);</span><br><span class="line">&lt;/script&gt;、</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <p>本地开启debug模式进行调试：</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123337@2x.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004045615.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>可以看到现在是线程nio-7001-exec-1去发送到重定向到下边的doExport方法</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123727@2x.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004103884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>此时在doExport中是新的exec-2线程去调用这个方法判断文件是否存在</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-123931@2x.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004150880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>同样的是这个线程去返回modelAndView，按理说这时候应该返回模板类freemarker中的export.ftl，但是它没有去返回freemarker文件，而是将这个请求转发到了export方法：</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-124314@2x.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004206983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>而且是同一个线程，是容器内跳转。之后因为每次export方法都会去生成一个新的随机的文件名称，所以又会去调用doExport方法去下载新的文件名称的文件，直到有一个个文件内容比较少，异步线程在判断文件是否存在之前，文件导出，否则浏览器会直接拦截这么多次的重定向：</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180902-125046.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203004308698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程"></a>排查过程</h2><h3 id="是不是freemarker的文件路径配置有问题"><a href="#是不是freemarker的文件路径配置有问题" class="headerlink" title="是不是freemarker的文件路径配置有问题"></a>是不是freemarker的文件路径配置有问题</h3><p>既然是容器内跳转，而没有访问到真正的导出页面的文件，那是不是freemarker的文件访问路径配置有问题。看到本地环境的properties文件中关于freemarker配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># freemarker相关配置</span><br><span class="line">spring.freemarker.enabled=true</span><br><span class="line">spring.freemarker.suffix=.ftl</span><br><span class="line">spring.freemarker.content-type=text/html</span><br><span class="line">spring.freemarker.cache=false</span><br><span class="line">spring.freemarker.charset=utf-8</span><br><span class="line">spring.freemarker.check-template-location=true</span><br><span class="line">spring.freemarker.template-loader-path=classpath:/templates/</span><br></pre></td></tr></table></figure>
 <p>这里去查看了模板文件确实是放在了classpath下的templates文件夹中的。所以配置和访问文件的路径没有问题。</p>
@@ -494,7 +494,7 @@
   <p><span>本文标题:</span><a href="/blog/2018/08/29/记一次freemarker错误排查/">记一次freemarker错误排查</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年08月29日 - 00:08</p>
-  <p><span>最后更新:</span>2018年10月11日 - 00:10</p>
+  <p><span>最后更新:</span>2018年12月03日 - 00:12</p>
   <p><span>原始链接:</span><a href="/blog/2018/08/29/记一次freemarker错误排查/" title="记一次freemarker错误排查">https://zhanglijun1217.github.io/2018/08/29/记一次freemarker错误排查/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/29/记一次freemarker错误排查/"  aria-label="复制成功！"></i></span>
   </p>

@@ -87,14 +87,14 @@
 <meta property="og:site_name" content="张利君的博客">
 <meta property="og:description" content="前言这篇去写一些最近在工作中get到的关于vi/vim命令的点，简单去记录下。 技能点在文件中快速删除一行在vi编辑文件的时候，发现有时要删除很多的文件内容，这个时候去一点点删除很慢，这里get到了一个快速删除一行的技能。在打开的文件中所要删除的行连续按两次d就可以快速删除一行，然后在用:wq保存即可。  解决没有正确关闭vi打开的文件有的时候我们在查看一个文件之后，直接ctrl+z去退出了文件，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222039.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222548.png">
-<meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-223131.png">
-<meta property="og:updated_time" content="2018-09-09T14:34:09.504Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203005303936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203005248626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203005235670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2018-12-02T16:54:35.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vi命令小总结">
 <meta name="twitter:description" content="前言这篇去写一些最近在工作中get到的关于vi/vim命令的点，简单去记录下。 技能点在文件中快速删除一行在vi编辑文件的时候，发现有时要删除很多的文件内容，这个时候去一点点删除很慢，这里get到了一个快速删除一行的技能。在打开的文件中所要删除的行连续按两次d就可以快速删除一行，然后在用:wq保存即可。  解决没有正确关闭vi打开的文件有的时候我们在查看一个文件之后，直接ctrl+z去退出了文件，">
-<meta name="twitter:image" content="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222039.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181203005303936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70">
 
 
 
@@ -436,13 +436,13 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇去写一些最近在工作中get到的关于vi/vim命令的点，简单去记录下。</p>
 <h2 id="技能点"><a href="#技能点" class="headerlink" title="技能点"></a>技能点</h2><h3 id="在文件中快速删除一行"><a href="#在文件中快速删除一行" class="headerlink" title="在文件中快速删除一行"></a>在文件中快速删除一行</h3><p>在vi编辑文件的时候，发现有时要删除很多的文件内容，这个时候去一点点删除很慢，这里get到了一个快速删除一行的技能。在打开的文件中所要删除的行连续按两次d就可以快速删除一行，然后在用:wq保存即可。</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222039.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005303936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h3 id="解决没有正确关闭vi打开的文件"><a href="#解决没有正确关闭vi打开的文件" class="headerlink" title="解决没有正确关闭vi打开的文件"></a>解决没有正确关闭vi打开的文件</h3><p>有的时候我们在查看一个文件之后，直接ctrl+z去退出了文件，当我们再用vim命令去编辑文件的时候，这时候会发现报一个没有正确关闭这个文件的冲突错误，并且你不去解决就会一直存在。</p>
-<p><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-222548.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20181203005248626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>这里get到了去解决的方法，其实也是怪自己一看到一堆英文就不想看下去，这里其实已经写得很清楚了，这里提供了两种情况：</p>
 <p>（1）有可能另一个人也在编辑这个文件，它提醒你要注意两个人同时编辑不同的地方。</p>
 <p>（2）上一次编辑的session还在，这时候提供了解决办法：可以用recover或者vim -r 文件名去修复这个changes。</p>
-<p>可以看到当你没正确退出时，还保持着edit session，这时候会生成两个临时文件，我这里采用的是直接删除这两个文件即可。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/WX20180909-223131.png" alt=""></p>
+<p>可以看到当你没正确退出时，还保持着edit session，这时候会生成两个临时文件，我这里采用的是直接删除这两个文件即可。<br><img src="https://img-blog.csdnimg.cn/20181203005235670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3psajEyMTc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>运行 rm -rf .fileName.* 命令之后，再次打开之后就不会有冲突。 </p>
 
       
@@ -474,7 +474,7 @@
   <p><span>本文标题:</span><a href="/blog/2018/09/09/vi命令小总结/">vi命令小总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年09月09日 - 22:09</p>
-  <p><span>最后更新:</span>2018年09月09日 - 22:09</p>
+  <p><span>最后更新:</span>2018年12月03日 - 00:12</p>
   <p><span>原始链接:</span><a href="/blog/2018/09/09/vi命令小总结/" title="vi命令小总结">https://zhanglijun1217.github.io/2018/09/09/vi命令小总结/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/09/09/vi命令小总结/"  aria-label="复制成功！"></i></span>
   </p>

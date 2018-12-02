@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png">
 <meta property="og:image" content="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png">
-<meta property="og:updated_time" content="2018-08-02T07:19:16.998Z">
+<meta property="og:updated_time" content="2018-12-02T17:00:08.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="orika转换bean的字段丢失">
 <meta name="twitter:description" content="背景 用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。">
@@ -436,7 +436,11 @@
       
         <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
 <li>用orika对象转换工具去转换list的时候，发现只去完整转了list的第一条数据，但是后边的数据都没有将字段全部映射上去。<a id="more"></a></li>
-<li>描述：<br>   1.debug时发现的，源数据list是数据都存在的<br><img src="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png" alt="源数据"><br>  2.转完之后的list数据，发现userName、realName等字段是丢失的。<br>  <img src="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png" alt="转换之后的数据"></li>
+<li><p>描述：<br>   1.debug时发现的，源数据list是数据都存在的<br><img src="http://pcsb3jzo3.bkt.clouddn.com/0B07F97B-A2AD-428A-80B0-C11E440C9704.png" alt="源数据"></p>
+<ol start="2">
+<li>转完之后的list数据，发现userName、realName等字段是丢失的。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/C953E1D8-E10B-4248-B067-4CD5CC819811.png" alt="转换之后的数据"></li>
+</ol>
+</li>
 </ul>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>经过排查发现是因为在转换注册的字段中，有个type字段没有对应的注册上去。这里就造成了orika这个转换工具丢失了list中记录字段的数据转换。<br><img src="http://pcsb3jzo3.bkt.clouddn.com/429B7186-4B0E-477A-BC63-55057A713FC7.png" alt="注册字段"></p>
 <p>这里去记录一下这次碰到的小bug，其实也是粗心导致的。</p>
@@ -470,7 +474,7 @@
   <p><span>本文标题:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/">orika转换bean的字段丢失</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
   <p><span>发布时间:</span>2018年08月02日 - 10:08</p>
-  <p><span>最后更新:</span>2018年08月02日 - 15:08</p>
+  <p><span>最后更新:</span>2018年12月03日 - 01:12</p>
   <p><span>原始链接:</span><a href="/blog/2018/08/02/orika转换bean的字段丢失/" title="orika转换bean的字段丢失">https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/08/02/orika转换bean的字段丢失/"  aria-label="复制成功！"></i></span>
   </p>
