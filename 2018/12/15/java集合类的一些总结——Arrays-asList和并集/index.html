@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Arrays.asList,集合操作," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="坚持是一种力量">
-<meta property="og:type" content="website">
-<meta property="og:title" content="张利君的博客">
-<meta property="og:url" content="https://zhanglijun1217.github.io/archives/2018/page/2/index.html">
+<meta name="description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
+<meta name="keywords" content="Arrays.asList,集合操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合类的一些总结——Arrays.asList和Guava操作集合">
+<meta property="og:url" content="https://zhanglijun1217.github.io/2018/12/15/java集合类的一些总结——Arrays-asList和并集/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="坚持是一种力量">
+<meta property="og:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-15T18:17:05.800Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="张利君的博客">
-<meta name="twitter:description" content="坚持是一种力量">
+<meta name="twitter:title" content="java集合类的一些总结——Arrays.asList和Guava操作集合">
+<meta name="twitter:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://zhanglijun1217.github.io/archives/2018/page/2/"/>
+  <link rel="canonical" href="https://zhanglijun1217.github.io/2018/12/15/java集合类的一些总结——Arrays-asList和并集/"/>
 
 
 
 
 
-  <title>归档 | 张利君的博客</title>
+  <title>java集合类的一些总结——Arrays.asList和Guava操作集合 | 张利君的博客</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <a href="https://github.com/zhanglijun1217"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
@@ -282,411 +284,278 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhanglijun1217.github.io/blog/2018/12/15/java集合类的一些总结——Arrays-asList和并集/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张利君">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张利君的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">java集合类的一些总结——Arrays.asList和Guava操作集合</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T00:59:34+08:00">
+                2018-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 27 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/blog/2018/12/15/java集合类的一些总结——Arrays-asList和并集/" class="leancloud_visitors" data-flag-title="java集合类的一些总结——Arrays.asList和Guava操作集合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+		<span>℃</span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/10/04/并发编程——ThreadPoolExecutor源码分析（一）/" itemprop="url">
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">并发编程——ThreadPoolExecutor源码分析（一）</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,178
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-04T18:26:46+08:00"
-              content="2018-10-04" >
-          10-04
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/30/vi命令小总结（二）/" itemprop="url">
-              
-                <span itemprop="name">vi命令小总结（二）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-30T16:46:17+08:00"
-              content="2018-09-30" >
-          09-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/24/spring-boot配置swagger/" itemprop="url">
-              
-                <span itemprop="name">spring boot配置swagger</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-24T02:29:00+08:00"
-              content="2018-09-24" >
-          09-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h2 id="使用背景"><a href="#使用背景" class="headerlink" title="使用背景"></a>使用背景</h2><p>总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。</p>
+<h2 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h2><h3 id="Arrays-asList的坑"><a href="#Arrays-asList的坑" class="headerlink" title="Arrays.asList的坑"></a>Arrays.asList的坑</h3><p>先上结论：</p>
+<ul>
+<li>Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean</li>
+<li>该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新</li>
+<li>不支持add和remove方法<br>（1）首先对于第一点，这个方法不适用于基本类型，并不是不能用于基本类型，看一下下面的代码：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] int_array = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    List&lt;<span class="keyword">int</span>[]&gt; ints = Arrays.asList(int_array);</span><br><span class="line">    <span class="comment">// 对于基本类型，会打印一个元素结果</span></span><br><span class="line">    System.out.println(ints);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[I@610455d6]</span><br></pre></td></tr></table></figure></p>
+<p>从Arrays.asList返回List的泛型可知，这个工具方法将基本类型的数组只转成了一个元素的列表。因为在Arrays.asList中，该方法接受一个变长参数，一般可以看做数组参数，但是因为int[]本身就是一个类型，所以data变量作为参数传递时，编译器认为只传了一个变量，这个变量的类型是int数组，所以会这样。基本类型是不能作为泛型的参数，按道理应该使用包装类型，这里没有报错是因为数组是可以泛型化的，所以在转换后list中有一个类型为int[]的数组。值得注意的是，如果这时打印出其中的class，会返回class[I。因为jvm不可能输出int[]对应的array类型，array属于java.lang.reflect包，通过反射访问数组这个类，编译时生成的这个class值。<br>（2）对于第二点，我们可以尝试改变数组中的值时，可以看看对应list中的值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">String[] string_array = &#123;<span class="string">"aa"</span>, <span class="string">"bb"</span>, <span class="string">"cc"</span>&#125;;</span><br><span class="line">       List&lt;String&gt; stringList = Arrays.asList(string_array);</span><br><span class="line"></span><br><span class="line">       System.out.println(<span class="string">"============改变数组前============"</span>);</span><br><span class="line">       System.out.println(stringList);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 改变数组</span></span><br><span class="line">       string_array[<span class="number">1</span>] = <span class="string">"change"</span>;</span><br><span class="line">       System.out.println(<span class="string">"============改变数组后============"</span>);</span><br><span class="line">       System.out.println(stringList);</span><br><span class="line">       <span class="comment">// 改变list</span></span><br><span class="line">       stringList.set(<span class="number">1</span>, <span class="string">"change2"</span>);</span><br><span class="line">       System.out.println(<span class="string">"============改变list后============"</span>);</span><br><span class="line">       System.out.println(string_array[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">============改变数组前============</span><br><span class="line">[aa, bb, cc]</span><br><span class="line">============改变数组后============</span><br><span class="line">[aa, change, cc]</span><br><span class="line">============改变list后============</span><br><span class="line">change2</span><br></pre></td></tr></table></figure></p>
+<p>这个通过源码很好理解，可以看一下asList的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SafeVarargs</span></span><br><span class="line"> <span class="meta">@SuppressWarnings</span>(<span class="string">"varargs"</span>)</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">asList</span><span class="params">(T... a)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(a);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>new ArrayList构造函数代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> E[] a;</span><br><span class="line"> ArrayList(E[] array) &#123;</span><br><span class="line">            a = Objects.requireNonNull(array);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从源码中得到asList就是将数组作为返回的List的实际引用，即List中的数组就是要转成list的数组，所以当更改数组中的值时，list中的值也会变化，list列表中的值变更也相当于变更了其中的数组，也就是源数据数组。这就是所谓的链接在一起。Arrays.asList体现的是适配器模式，只是转换接口（array到list），后台的数据仍是数组。<br>（3）第三点是数组转换之后的List是不支持remove和add方法的。这里说的不支持，是调用add或者remove方法之后会抛出一个异常 java.lang.UnsupportedOperationException。一开始感到奇怪，ArrayList为什么不支持add和remove方法？这里去看了返回的ArrayList的源码，这个ArrayList并不是常用的ArrayList，而是在Arrays中定义的一个内部类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">       <span class="keyword">implements</span> <span class="title">RandomAccess</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br><span class="line"><span class="class">   </span>&#123;</span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">2764017481108945198L</span>;</span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">final</span> E[] a;</span><br><span class="line"></span><br><span class="line">       ArrayList(E[] array) &#123;</span><br><span class="line">           a = Objects.requireNonNull(array);</span><br><span class="line">       &#125;</span><br><span class="line">       ... <span class="comment">// 省略一些代码</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个内部类虽然继承了AbstractList，但是没有去实现其中的add和remove方法，可以看下AbstractList中定义的默认add方法的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;This implementation always throws an</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@code</span> UnsupportedOperationException&#125;.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> UnsupportedOperationException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> ClassCastException            &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> NullPointerException          &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IllegalArgumentException      &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException     &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到如果没有去实现add方法，那么会抛出这个异常，这里因为也叫做ArrayList，所以还是比较容易踩坑。clear、remove方法也是一样的原因。<br>关于Arrays.asList的代码github地址：<br><a href="https://github.com/zhanglijun1217/java8/tree/master/src/Arrays_asList" target="_blank" rel="noopener">https://github.com/zhanglijun1217/java8/tree/master/src/Arrays_asList</a></p>
+<h3 id="Guava中的Sets工具类求交集"><a href="#Guava中的Sets工具类求交集" class="headerlink" title="Guava中的Sets工具类求交集"></a>Guava中的Sets工具类求交集</h3><p>近期也去使用了一个求集合交集的场景。这里去简单记录下Guava中的这个用法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sets.intersection(set1, set2);</span><br></pre></td></tr></table></figure></p>
+<p>这个方法返回的是一个新的集合去承接传入两个集合的交集的。Guava也提供了对集合操作很多其他方法，比如并集、差集、全集等，这个后面会去总结。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/21/两个切面配置的记录/" itemprop="url">
-              
-                <span itemprop="name">两个切面配置的记录</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-21T00:02:57+08:00"
-              content="2018-09-21" >
-          09-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/09/vi命令小总结/" itemprop="url">
-              
-                <span itemprop="name">vi命令小总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-09T22:04:52+08:00"
-              content="2018-09-09" >
-          09-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/05/springboot应用拦截器/" itemprop="url">
-              
-                <span itemprop="name">springboot应用拦截器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-05T00:33:15+08:00"
-              content="2018-09-05" >
-          09-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/09/02/Function函数式接口的优化代码应用/" itemprop="url">
-              
-                <span itemprop="name">Function函数式接口的优化代码应用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-02T14:27:40+08:00"
-              content="2018-09-02" >
-          09-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/08/29/记一次freemarker错误排查/" itemprop="url">
-              
-                <span itemprop="name">记一次freemarker错误排查</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-29T00:33:50+08:00"
-              content="2018-08-29" >
-          08-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/08/25/spring-boot-actutor/" itemprop="url">
-              
-                <span itemprop="name">spring boot actuator</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-25T19:02:32+08:00"
-              content="2018-08-25" >
-          08-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/08/18/validate注解做校验/" itemprop="url">
-              
-                <span itemprop="name">validate注解做校验</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-18T13:25:26+08:00"
-              content="2018-08-18" >
-          08-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+   </div>
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/blog/2018/12/15/java集合类的一些总结——Arrays-asList和并集/">java集合类的一些总结——Arrays.asList和Guava操作集合</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 张利君 的个人博客">张利君</a></p>
+  <p><span>发布时间:</span>2018年12月15日 - 00:12</p>
+  <p><span>最后更新:</span>2018年12月16日 - 02:12</p>
+  <p><span>原始链接:</span><a href="/blog/2018/12/15/java集合类的一些总结——Arrays-asList和并集/" title="java集合类的一些总结——Arrays.asList和Guava操作集合">https://zhanglijun1217.github.io/2018/12/15/java集合类的一些总结——Arrays-asList和并集/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zhanglijun1217.github.io/2018/12/15/java集合类的一些总结——Arrays-asList和并集/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+      
+   </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Arrays-asList/" rel="tag"># Arrays.asList</a>
+          
+            <a href="/blog/tags/集合操作/" rel="tag"># 集合操作</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/12/06/ClassNotFoundException和NoClassDefFoundError/" rel="next" title="ClassNotFoundException和NoClassDefFoundError">
+                <i class="fa fa-chevron-left"></i> ClassNotFoundException和NoClassDefFoundError
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/blog/archives/2018/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/blog/archives/2018/">1</a><span class="page-number current">2</span><a class="page-number" href="/blog/archives/2018/page/3/">3</a><a class="extend next" rel="next" href="/blog/archives/2018/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -694,6 +563,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zODQ1NS8xNDk4Mw=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -714,8 +592,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -801,6 +688,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用背景"><span class="nav-number">1.</span> <span class="nav-text">使用背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用总结"><span class="nav-number">2.</span> <span class="nav-text">使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Arrays-asList的坑"><span class="nav-number">2.1.</span> <span class="nav-text">Arrays.asList的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Guava中的Sets工具类求交集"><span class="nav-number">2.2.</span> <span class="nav-text">Guava中的Sets工具类求交集</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -964,6 +867,10 @@
   
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -992,6 +899,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
