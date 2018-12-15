@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
+<meta name="description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。">
 <meta name="keywords" content="Arrays.asList,集合操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java集合类的一些总结——Arrays.asList和Guava操作集合">
 <meta property="og:url" content="https://zhanglijun1217.github.io/2018/12/15/java集合类的一些总结——Arrays-asList和并集/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
+<meta property="og:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-15T18:17:05.800Z">
+<meta property="og:updated_time" content="2018-12-15T18:19:01.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java集合类的一些总结——Arrays.asList和Guava操作集合">
-<meta name="twitter:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。 使用总结Arrays.asList的坑先上结论：  Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean 该方法将数组和列表动态链接起来，当其中一个更新后，另一个也会更新">
+<meta name="twitter:description" content="使用背景总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。">
 
 
 
@@ -431,6 +431,7 @@
 
       
         <h2 id="使用背景"><a href="#使用背景" class="headerlink" title="使用背景"></a>使用背景</h2><p>总结一下最近项目中使用到集合的两个点，一个是Arrays.asList这个方法使用的坑，另一个是利用Guava的Sets工具类去求并交集。</p>
+<a id="more"></a>
 <h2 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h2><h3 id="Arrays-asList的坑"><a href="#Arrays-asList的坑" class="headerlink" title="Arrays.asList的坑"></a>Arrays.asList的坑</h3><p>先上结论：</p>
 <ul>
 <li>Arrays.asList这个方法不适用于基本类型：byte,short,int,long,float,double,boolean</li>
