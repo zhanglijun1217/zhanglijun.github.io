@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[test多个设备使用hexo]]></title>
+    <url>%2Fblog%2F2018%2F12%2F24%2Ftest%E5%A4%9A%E4%B8%AA%E8%AE%BE%E5%A4%87%E4%BD%BF%E7%94%A8hexo%2F</url>
+    <content type="text"><![CDATA[背景hexo是支持多设备去写你的博客的，这里参考的是这个资料： hexo多设备]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo备份</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[集合中的深拷贝]]></title>
     <url>%2Fblog%2F2018%2F12%2F19%2F%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D%2F</url>
     <content type="text"><![CDATA[深拷贝与浅拷贝对对象的深拷贝和浅拷贝我们并不陌生。 （1）浅拷贝： 在浅拷贝中，如果原型对象的成员变量是值类型，将复制一份给克隆对象；如果原型对象的成员变量是引用类型，则将引用对象的地址复制一份给克隆对象，也就是说原型对象和克隆对象的成员变量指向相同的内存地址。简单来说，在浅拷贝中，当对象被复制时只复制它本身和其他包含的值类型的成员变量，而引用类型的成员对象并没有复制。在Java中，通过覆盖Object类的clone()方法可以实现浅拷贝。 （2）深拷贝: 在深拷贝中，无论原型对象的成员变量是值对象还是引用类型，都将复制一份给克隆对象，深拷贝将原型对象的所有引用对象也复制一份给克隆对象。简单来说，在深克隆中，除了对象本身被复制外，对象所包含的所有成员变量也将复制。在Java中，如果要实现深拷贝，可以通过覆盖Object类的clone()方法实现，也可以通过序列化(Serialization)等方式来实现。（当然如果引用类型里面还包含很多引用类型，或者内层引用类型的类里面又包含引用类型，使用clone方法就会很麻烦。这时我们可以用序列化的方式实现对象的深克隆。） 这里肯定有些朋友注意到Cloneable接口和Serializable接口，这两个接口其实都是java中的标记型接口，其中都没有任何方法的定义，其实就是告诉jre这些接口的实现类是否有某个功能，是否支持克隆，是否支持序列化。 Object类中的clone()方法可以看到这个方法在Object类中是protected的。可与看看它的方法的源码注释： 12345678910111213/** * Creates and returns a copy of this object. The precise meaning * of "copy" may depend on the class of the object. The general * intent is that, for any object &#123;@code x&#125;, the expression: * x.clone() != x * will be true, and that the expression: * x.clone().getClass() == x.getClass() * will be &#123;@code true&#125;, but these are not absolute requirements. * While it is typically the case that: * x.clone().equals(x) * will be &#123;@code true&#125;, this is not an absolute requirement. * &lt;p&gt; */ 从注释中我们可以看到： 因为x.clone != x，所以我们可以知道克隆对象将有单独的内存地址分配。 原始对象和克隆对象有相同的类型，但它不是强制的。 原始和克隆对象应该是平等的，equal()方法返回true，但它不是强制的。 同时，可以猜想到clone()方法设置为protected的原因：每个类都去继承了Object方法，但是clone提供的是浅拷贝的功能，我们并不知道要拷贝的原始类中成员都是值对象还是引用对象，如果要在一个类B中使用一个非同包类A的clone对象，并且B没有继承A，那么这时是不能调用A.clone()，因为Object的clone方法是protected的，如果要调用则需要A去重写clone方法，并且把clone方法的可见范围变为B类能访问的可见范围。这样A就可以对自身的成员变量是否存在引用对象去判断到底是提供深拷贝还是浅拷贝克隆方法，从而不会把自己的引用成员变量暴露出去被修改。关于这个详细的解释有篇博客：clone方法为什么是protected的？ 浅拷贝和深拷贝的实现浅拷贝浅拷贝的实现： 实现Cloneable接口（不实现的话在clone方法会抛出ClassNotSupportedException异常）,虽然该接口只是一个标记型接口。 覆盖clone方法，访问修饰符是public。方法中调用supers.clone()方法得到需要的复制对象。(native本地方法，效率还是很高的)。 demo: 来一个无论学习什么知识都会有的User类]]></content>
