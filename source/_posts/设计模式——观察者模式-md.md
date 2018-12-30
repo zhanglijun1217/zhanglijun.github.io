@@ -431,7 +431,7 @@ public synchronized void deleteObserver(Observer o) {
 
 通知观察者的方法也可以看到分析了存在竞争条件的情况：
 
-一种是新注册的观察者会错过主题进行的通知，另一种是未注册的观察者会被误通知，所以这里同步代码块中，判断了changed这个状态，只有当changed为true才将vetor中存储的观察者赋给arrLocal变量；并且在clearChanged方法中也同步清除了changed为true这个状态。这样去广播通知的时候就不用去同步代码块中执行。
+一种是新注册的观察者会错过主题进行的通知，另一种是未注册的观察者会被误通知，所以这里同步代码块中，判断了changed这个状态，只有当changed为true才将vector中存储的观察者赋给arrLocal变量；并且在clearChanged方法中也同步清除了changed为true这个状态，这个是为了表示该对象已不可改。这样去广播通知的时候就不用去同步代码块中执行。
 
 ```java
 public void notifyObservers(Object arg) {
@@ -473,5 +473,187 @@ public void notifyObservers(Object arg) {
 
 在这个类中提供了一些同步方法，比如判断changed是否发生变化、比如返回当前观察者的数量。这里不去赘述。
 
+jdk内置的Observable类中还提供了没有参数的notifyObservers方法，这里相当于调用了notifyObservers(null)，这里就可以理解为有些场景是关心Subject变化但是不需要Subject传入参数，所有提供了这个方法。
+
 ##### 使用java内置观察者模式改造气象站demo
+
+这里就可以让气象站去继承Observable类，即观察者模式中的主题，去重写Observable类中的一些方法。
+
+同时各个气象看板要去实现jdk内置的Observer接口和实现其中的update方法。这里要把要更新的数据做成一个类，来适配update接口。
+
+气象站WeatherData类，可以看到这里调用了父类的setChanged方法和notifyObservers方法，这里由刚才看到notify通知的源码知道要注意设置changed参数为true，这样才会去广播数据变更给观察者们。所以这里在数据变更的方法之前调用了设置changed参数为true的方法。
+
+```java
+@Data
+public class WeatherData extends Observable {
+
+    /**
+     * 温度
+     */
+    private float temperature;
+
+    /**
+     * 湿度
+     */
+    private float humidity;
+
+    /**
+     * 气压
+     */
+    private float pressure;
+
+    private void dataChange() {
+        // 使用jdk内置Subject 即Observable类，通知观察者们的时候要设置changed为true
+        super.setChanged();
+        super.notifyObservers(new Data(getTemperature(), getHumidity(), getPressure()));
+    }
+
+    /**
+     * 模拟数据变化过程
+     */
+    public void setData(float temperature, float pressure, float humidity) {
+        setTemperature(temperature);
+        setPressure(pressure);
+        setHumidity(humidity);
+
+        dataChange();
+    }
+
+    /**
+     * 通知观察者的数据类 这里要是适配JDK内置的Observer接口中的update方法
+     */
+    @AllArgsConstructor
+    public class Data{
+        /**
+         * 温度
+         */
+        private float temperature;
+
+        /**
+         * 湿度
+         */
+        private float humidity;
+
+        /**
+         * 气压
+         */
+        private float pressure;
+
+    }
+
+
+}
+```
+
+再来看两个气象看板的类，这里是实现了update方法，转为了数据类去更新数据。
+
+```java
+@Data
+@ToString
+public class CurrentConditions implements Observer {
+
+    /**
+     * 温度
+     */
+    private float temperature;
+
+    /**
+     * 湿度
+     */
+    private float humidity;
+
+    /**
+     * 气压
+     */
+    private float pressure;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        WeatherData.Data data = (WeatherData.Data) arg;
+        setTemperature(data.getTemperature());
+        setHumidity(data.getHumidity());
+        setPressure(data.getPressure());
+
+        display();
+
+    }
+
+    public void display() {
+        System.out.println("*** Today ***" + toString());
+    }
+}
+```
+
+```java
+@Data
+@ToString
+public class ForcastConditions implements Observer {
+
+    /**
+     * 温度
+     */
+    private float temperature;
+
+    /**
+     * 湿度
+     */
+    private float humidity;
+
+    /**
+     * 气压
+     */
+    private float pressure;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO 这里还可以对Observable 进行一个筛选和过滤的逻辑
+
+        WeatherData.Data data = (WeatherData.Data) arg;
+
+        setTemperature(data.getTemperature());
+        setHumidity(data.getHumidity());
+        setPressure(data.getPressure());
+
+        display();
+    }
+
+    public void display() {
+        System.out.println("*** forcast ***" + toString());
+    }
+}
+```
+
+这里去测试下：
+
+```java
+public static void main(String[] args) {
+
+    WeatherData weatherData = new WeatherData();
+
+    // 两个观察者，使用java内置观察者模式 通知顺序和注册顺序是相反的
+    CurrentConditions currentConditions = new CurrentConditions();
+    weatherData.addObserver(currentConditions);
+    weatherData.addObserver(new ForcastConditions());
+
+    // 这时模拟气候变动
+    weatherData.setData(111f, 222f, 333f);
+
+    System.out.println("移除一个观察者");
+
+    // 移除一个观察者 注意这里要将上面同一个观察者对象 作为移除参数
+    weatherData.deleteObserver(currentConditions);
+    weatherData.setData(444f, 555f, 666f);
+}
+```
+
+可以看到输出结果：
+
+```
+*** forcast ***ForcastConditions(temperature=111.0, humidity=333.0, pressure=222.0)
+*** Today ***CurrentConditions(temperature=111.0, humidity=333.0, pressure=222.0)
+移除一个观察者
+*** forcast ***ForcastConditions(temperature=444.0, humidity=666.0, pressure=555.0)
+
+Process finished with exit code 0
+```
 
