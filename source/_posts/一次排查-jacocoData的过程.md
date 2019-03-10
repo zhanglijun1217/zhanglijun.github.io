@@ -35,8 +35,8 @@ categories:
 
 后来问了部署jacoco服务的框架组人员，发现是用了java Agent在修改运行时字节码实现的，拉了dump发现确实在运行时进行字节码修改的，而在jacoco官方的github也曾经有过这个问题的issue：
 
-[](https://stackoverflow.com/questions/16981831/invalid-column-name-jacocodata-using-ant-jacoco-and-junit)
+[jacocoData](https://stackoverflow.com/questions/16981831/invalid-column-name-jacocodata-using-ant-jacoco-and-junit)
 
-关于java Agent技术可以参考博客:[](https://www.cnblogs.com/aspirant/p/8796974.html)，这里提到了asm技术和agent探针参数。
+关于java Agent技术可以参考博客:[agent博客](https://www.cnblogs.com/aspirant/p/8796974.html)，这里提到了asm技术和agent探针参数。
 
-所以在反射取字段时候遇到这个坑比较难排查，记录一下。这里的解决办法参考了博客:[](https://www.cnblogs.com/aspirant/p/8796974.html)，即使用了是否为复合字段的field方法解决。
+所以在反射取字段时候遇到这个坑比较难排查，记录一下。这里的解决办法参考了博客:[$jacocoData问题的解决](https://www.cnblogs.com/aspirant/p/8796974.html)，即使用了是否为复合字段的field方法解决。
