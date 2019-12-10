@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://zhanglijun1217.github.io/blog/2019/12/09/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8%E6%8B%BE%E9%81%97/</loc>
-    <lastmod>2019-12-09T16:39:17.637Z</lastmod>
+    <lastmod>2019-12-10T13:38:16.653Z</lastmod>
     <data>
         <display>
         <title>方法引用拾遗</title>
@@ -17,6 +17,30 @@
            
              
               <breadCrumb title="java8" url="https://zhanglijun1217.github.io/blog/categories/java8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://zhanglijun1217.github.io/blog/2019/12/10/windows%E4%B8%8Btypora%E5%9B%BE%E5%BA%8A/</loc>
+    <lastmod>2019-12-10T13:38:16.652Z</lastmod>
+    <data>
+        <display>
+        <title>windows下typora图床（附带阿里云教程）</title>
+        <pubTime>2019-12-09T16:43:56.000Z</pubTime>
+        
+        <tag>windows</tag>
+         
+        <tag>typora</tag>
+         
+        <tag>图床</tag>
+         
+         
+           
+             
+              <breadCrumb title="日常工具" url="https://zhanglijun1217.github.io/blog/categories/%E6%97%A5%E5%B8%B8%E5%B7%A5%E5%85%B7/"/>
           
         </display>
     </data>
@@ -574,26 +598,6 @@
 
     
   <url>
-    <loc>https://zhanglijun1217.github.io/blog/2018/12/24/test%E5%A4%9A%E4%B8%AA%E8%AE%BE%E5%A4%87%E4%BD%BF%E7%94%A8hexo/</loc>
-    <lastmod>2019-08-06T16:05:24.040Z</lastmod>
-    <data>
-        <display>
-        <title>test多个设备使用hexo</title>
-        <pubTime>2018-12-23T16:44:00.000Z</pubTime>
-        
-        <tag>hexo备份</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo" url="https://zhanglijun1217.github.io/blog/categories/hexo/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://zhanglijun1217.github.io/blog/2019/03/18/synchronized%E9%94%81%E5%AF%B9%E5%BA%94%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2019-08-06T16:05:24.040Z</lastmod>
     <data>
@@ -609,6 +613,26 @@
            
              
               <breadCrumb title="并发编程" url="https://zhanglijun1217.github.io/blog/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://zhanglijun1217.github.io/blog/2018/12/24/test%E5%A4%9A%E4%B8%AA%E8%AE%BE%E5%A4%87%E4%BD%BF%E7%94%A8hexo/</loc>
+    <lastmod>2019-08-06T16:05:24.040Z</lastmod>
+    <data>
+        <display>
+        <title>test多个设备使用hexo</title>
+        <pubTime>2018-12-23T16:44:00.000Z</pubTime>
+        
+        <tag>hexo备份</tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="https://zhanglijun1217.github.io/blog/categories/hexo/"/>
           
         </display>
     </data>
