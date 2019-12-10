@@ -64,7 +64,7 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 
 下载插件的代码到本地，这里不熟悉的github的同学可以直接点击图中的download zip即可。
 
-![image-20191210203319035](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210203319035.png)
+![image-20191210203319035](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210203323-619092.png)
 
 解压之后可以看到有这些文件，和github上的目录对应
 
@@ -82,7 +82,7 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 
 然后复制文档上的阿里云这段配置，把整个473行替换掉。
 
-![image-20191210204100544](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210204100544.png)
+![image-20191210204100544](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210214247-119600.png)
 
 接下来就按照注释（“//“后面的东西）来操作即可。
 
@@ -97,11 +97,11 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 
 填写你想要的登录名称（复杂点也没关系，在后面配置一般是关键字搜索选择的）、显示名称和勾选上**编程访问**。这里的编程访问我们也可以清楚看到是通过assess信息来支持开发者调用API访问的用户。
 
-![image-20191210205026239](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210205026239.png)
+![image-20191210205026239](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210205105-966090.png)
 
 点击确定，这时要收一个验证码：
 
-![image-20191210205203529](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210205203529.png)
+![image-20191210205203529](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210214247-283734.png)
 
 填写完之后这步很关键，可以看到会在页面上告知你一个accessKeyId和accessKeySercret，但是坑的地方是这个授权key的值只有在创建的这个页面才能看到，之后就看不到了，所以这里一定要进行复制或者保存这两个值。可以看到页面上也提供了对这两个值的复制功能。
 
@@ -121,7 +121,7 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 
 还剩个bucketDomain，这里作者其实也说的很明白了，在你的OSS概览页面上，会有对应的bucket域名，这里挑选一个即可，我挑选的是外网访问的这个bucket域名
 
-![image-20191210210533111](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210210533111.png)
+![image-20191210210533111](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210210534-200940.png)
 
 其实文档到这步也就没有了，我就以为是OK了，然后就很有自信的去保存了修改后的js文件去试了下。果然，不行_(:з」∠)_。
 
@@ -134,7 +134,9 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 这里可以看到其实是调用接口异常了，所以返回的这个错误，所以大概率是刚才配置的问题，再往上翻才看到原来除了文件底部的init方法之外，还要去配置下代码中的setting信息，这里稍微吐槽下为啥文档里没有写（没有，就是我前端不熟就没看代码，菜是原罪= =）。
 
 在setting配置里有这段代码：
-![image-20191210211346838](C:\Users\hasee\AppData\Roaming\Typora\typora-user-images\image-20191210211346838.png)
+![image-20191210211346838](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210214248-66258.png)
+
+
 
 可以看到请求的域名和API访问是从这里解析的，所以你不配置这里，默认会用作者写死的jiebianjin去访问接口，当然调不通了（因为阿里云上并没有这个子用户）。这里还是刚才的accessKey信息和bucket信息。这里看到了设置了过期时间和上传的大小限制，进而手工改了下大小限制，默认是512k，我这里放大到了5M。
 
@@ -157,5 +159,3 @@ Typora是大家写博客、记笔记、写文档等日常使用场景下都会�
 - 接第二条，我在写文过程中喜欢`ctrl+s`保存，这个好像也会把我的图片再重新上传一次（不太确定），也会造成大量的相同文件。
 - 性能上有时会卡顿，如果是阿里云接口的锅当我没说哈_(:з」∠)_。
 - 继续开发更好的功能给大家用，会一如既往的支持的~
-
-![image-20191210211918104](https://zlj1217-blog-image.oss-cn-hongkong.aliyuncs.com/typora/20191210211918-197363.png
