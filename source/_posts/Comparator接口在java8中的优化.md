@@ -5,7 +5,7 @@ date: 2020-03-22 22:33:02
 tags:
 	- Comparator接口
 categories:	
-	- java8
+	- Java8
 ---
 
 # 开始
@@ -81,6 +81,8 @@ Comparator接口要理解为比较器，实现其接口的类其实是比较器�
 /** * Returns a comparator that imposes the reverse ordering of this * comparator. * * @return a comparator that imposes the reverse ordering of this *         comparator. * @since 1.8 */
 default Comparator<T> reversed() {    return Collections.reverseOrder(this);}
 ```
+
+
 
 #### comparing方法
 
