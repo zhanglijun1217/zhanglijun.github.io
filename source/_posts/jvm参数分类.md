@@ -4,6 +4,7 @@ copyright: true
 tags:
 	- JVM参数分类
 categories:
+	- Java基础
 	- JVM
 ---
 
