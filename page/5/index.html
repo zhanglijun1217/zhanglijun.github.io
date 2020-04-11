@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="坚持是一种力量">
+<meta name="description" content="愿赌服输">
 <meta property="og:type" content="website">
 <meta property="og:title" content="张利君的博客">
 <meta property="og:url" content="https://zhanglijun1217.github.io/page/5/index.html">
 <meta property="og:site_name" content="张利君的博客">
-<meta property="og:description" content="坚持是一种力量">
+<meta property="og:description" content="愿赌服输">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="张利君的博客">
-<meta name="twitter:description" content="坚持是一种力量">
+<meta name="twitter:description" content="愿赌服输">
 
 
 
@@ -2395,7 +2395,7 @@
               <img class="site-author-image" itemprop="image" src="/blog/images/avatar.png" alt="张利君">
             
               <p class="site-author-name" itemprop="name">张利君</p>
-              <p class="site-description motion-element" itemprop="description">坚持是一种力量</p>
+              <p class="site-description motion-element" itemprop="description">愿赌服输</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -2416,7 +2416,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/blog/categories/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2505,12 +2505,6 @@
   
 </div>
 
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
-
 <!-- 
 
   <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
@@ -2531,6 +2525,25 @@
   <div class="powered-by"></div>
   <span class="post-count">博客全站共77.8k字</span>
 </div>
+
+<br>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
 
         
 
