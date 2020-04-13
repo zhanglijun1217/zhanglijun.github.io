@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[类加载系列之理解类加载]]></title>
+    <url>%2Fblog%2F2020%2F04%2F12%2F%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E7%90%86%E8%A7%A3%E7%B1%BB%E5%8A%A0%E8%BD%BD%2F</url>
+    <content type="text"><![CDATA[类的阶段在Java代码中，类型的加载、连接和初始化都是在程序运行期完成的。类有以下几个阶段： 类加载：即查找并加载类的二进制数据 类连接： 验证：确保被加载类的正确性 准备：为类的静态变量分配内存，并将其初始化为默认值 解析：类的符号引用转换为直接引用 类初始化：为类的静态变量赋予正确的初始值，运行static快中的代码。 类使用 类卸载 类加载类加载：类的加载是指将类的.class文件的二进制数据读入内存中，将其放在运行时数据区的方法区中，然后在内存中创建了一个java.lang.Class对象（HotSpot中这个Class对象在方法区）用来封装类在方法区的数据结构。（比如反射就是用的Class对象） 加载.class文件的方式 从本地系统磁盘直接加载（classpath下的文件） 通过网络下载.class文件 通过zip、jar等归档文件加载.class文件（多用于第三方的jar包） 将java源文件动态编译成.class文件（比如动态代理，运行期生成代理类的类加载过程） 类的初始化java程序对类的使用方式有两种： 主动使用 被动使用 类初始化的时机所有的jvm实现都必须保证在每个类或接口都被程序“首次主动使用”时才进行初始化。（这里是类初始化） 使用类主动使用类有下面几种方式： 创建类的实例 访问类或者接口的静态变量，或者对这个静态变量进行赋值。 调用类的静态方法 反射加载一个类 初始化一个类的子类，则父类也算被主动调用。 启动类，比如test 动态语言支持，java.lang.invoke.MethodHandle实例的解析结果的句柄对应类没有初始化，则进行初始化 被动使用：除了主动使用类的方式使用类或接口，都会被看做是类的被动使用，不会导致类的初始化。 一个例子解释类的主动使用和被动使用12345678910111213141516171819202122232425262728293031public class TestClassLoading &#123; public static void main(String[] args) &#123; // （1）并不会初始化类 Children 因为没有主动使用 Children；会初始化Parent 因为访问了str1 System.out.println(Children.str1); System.out.println("==========================="); // 会初始化Parent 也会初始化Children。因为访问了str2，要初始化Children，又因为子类被初始化，所以父类也被主动使用，进行初始化 System.out.println(Children.str2); &#125; static class Parent &#123; static String str1 = "hello"; static &#123; System.out.println("Parent初始化。。。。"); &#125; &#125; static class Children extends Parent &#123; static String str2 = "world"; static &#123; System.out.println("Children初始化。。。。"); &#125; &#125;&#125; 对应的输出： 12345Parent初始化。。。。hello===========================Children初始化。。。。world]]></content>
+      <categories>
+        <category>Java基础</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>类加载</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[JVM参数分类]]></title>
     <url>%2Fblog%2F2020%2F04%2F11%2Fjvm%E5%8F%82%E6%95%B0%E5%88%86%E7%B1%BB%2F</url>
     <content type="text"><![CDATA[JVM参数的分类常用的JVM参数可以大致的分为三类，下边简单的将JVM的参数做一个分类，作为一个JVM参数的简单总结。 JVM标准参数JVM的标准参数是指的在各个JDK版本中都比较稳定的，不会变动的参数，一般是针对jdk全局的参数。 比如 -help -server -client -version -showversion -cp -classpath 这种参数称之为标准参数。 JVM非标准化参数JVM非标准化参数指的是在各个jdk版本中会有略微变化的参数，这里可以分为 -X参数 和 -XX参数 -X参数比如-X参数有： -Xint : 解释执行 -Xcomp ：第一次使用就编译成本地代码（java不是严格的解释性或者编译性执行的语言） -Xmixed : 上面两种混合模式，有编译器自己去优化选择。 可以看到当前电脑上jdk的version中可以显示这个参数的值： 这里是mix模式，我们可以通过命令java -Xint -version来将mode调整为int模式： -XX参数-XX参数使我们平常使用最多的JVM参数，主要用于调优和Debug。 常见的-XX参数有 Boolean类型 格式：-XX:[+/-]&lt;name&gt; 表示启动或者禁用了name参数 比如：-XX:+UseConcMarkSweepGC表示启用了CMS垃圾回收器 ​ -XX:+UseG1GC 表示启用了G1垃圾回收器 非Boolean(Key-Value类型) 格式：-XX:&lt;name&gt;=&lt;value&gt; 表示name参数的值是value 比如：-XX:MaxGCPauseMills=500表示GC最大的停顿时间是500 ​ -XX:GCTimeRatio=19 -XX参数常见的参数还有一种缩写模式（虽然是-X开头，但是其实是-XX参数） 比如： -Xms 等价于-XX:InitialHeapSize 表示初始化堆大小 -Xmx 等价于-XX:MaxHeapSize 表示最大堆的大小 -Xss 等价于 -XX:ThreadStackSize 线程堆栈的大小 可以使用 jinfo -falg &lt;参数名称&gt; 命令行工具去查看当前java进程的JVM参数。 比如： jinfo -flag MaxHeapSize pid 之后会介绍命令行工具去查看对应的JVM参数。]]></content>
