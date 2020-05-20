@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[dubbofilter的路径问题]]></title>
+    <url>%2Fblog%2F2020%2F05%2F20%2Fdubbofilter%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[自定义dubbofilter在使用dubbo框架的时候可以使用filter去实现一些拦截功能和调整拦截顺序，在每次调用的过程中，Filter的拦截都会被执行。当然除了Dubbo默认的filter，用户也可以自定义dubbo filter来实现对应的功能。这里记录一个遇到的spi文件路径问题。 问题现象在测试自定义一个dubbo filter之后，发现并没有生效。 对应的filter代码： 123456789101112131415@Activate(group = Constants.PROVIDER, order = Integer.MIN_VALUE)public class HelloFilter implements Filter &#123; /** * @param invoker * @param invocation * @return * @throws RpcException */ @Override public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException &#123; System.out.println("filter调用了"); return invoker.invoke(invocation); &#125;&#125; 对应的spi文件内容： 1dubboLoggerFilter=com.xxx.demo.xxx.filter.HelloFilter 经过排查之后发现代码写的没啥问题，但dubbo并没有加载这个自定义filter的spi。隐约感觉是路径问题。 问题解决因为是对应一个已生效的filter去设置的，所以当时看到已有项目中的文件是这样的： 所以在建立spi文件的文件目录时直接new了一个目录名字叫做META-INF.dubbo。但其实看官方blog中的介绍是要在maven资源文件下建立如下的结果的spi文件： 这里恍然大悟才发现自己的目录路径建立错误了。 这里其实是idea展示的一个坑，比如我在现在改对的基础上去建立META-INF.dubbo目录，其实是和正确目录展示是一样的： 但是在你提交git文件的时候，其实是能明显看到对应的差别的： 这里记录下踩到的这个坑。]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo filter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[类加载系列之理解类加载]]></title>
     <url>%2Fblog%2F2020%2F04%2F12%2F%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E7%90%86%E8%A7%A3%E7%B1%BB%E5%8A%A0%E8%BD%BD%2F</url>
     <content type="text"><![CDATA[类的阶段在Java代码中，类型的加载、连接和初始化都是在程序运行期完成的。类有以下几个阶段： 类加载：即查找并加载类的二进制数据 类连接： 验证：确保被加载类的正确性 准备：为类的静态变量分配内存，并将其初始化为默认值 解析：类的符号引用转换为直接引用 类初始化：为类的静态变量赋予正确的初始值，运行static快中的代码。 类使用 类卸载 类加载类加载：类的加载是指将类的.class文件的二进制数据读入内存中，将其放在运行时数据区的方法区中，然后在内存中创建了一个java.lang.Class对象（HotSpot中这个Class对象在方法区）用来封装类在方法区的数据结构。（比如反射就是用的Class对象） 加载.class文件的方式 从本地系统磁盘直接加载（classpath下的文件） 通过网络下载.class文件 通过zip、jar等归档文件加载.class文件（多用于第三方的jar包） 将java源文件动态编译成.class文件（比如动态代理，运行期生成代理类的类加载过程） 类的初始化java程序对类的使用方式有两种： 主动使用 被动使用 类初始化的时机所有的jvm实现都必须保证在每个类或接口都被程序“首次主动使用”时才进行初始化。（这里是类初始化） 使用类主动使用类有下面几种方式： 创建类的实例 访问类或者接口的静态变量，或者对这个静态变量进行赋值。 调用类的静态方法 反射加载一个类 初始化一个类的子类，则父类也算被主动调用。 启动类，比如test 动态语言支持，java.lang.invoke.MethodHandle实例的解析结果的句柄对应类没有初始化，则进行初始化 被动使用：除了主动使用类的方式使用类或接口，都会被看做是类的被动使用，不会导致类的初始化。 一个例子解释类的主动使用和被动使用12345678910111213141516171819202122232425262728293031public class TestClassLoading &#123; public static void main(String[] args) &#123; // （1）并不会初始化类 Children 因为没有主动使用 Children；会初始化Parent 因为访问了str1 System.out.println(Children.str1); System.out.println("==========================="); // 会初始化Parent 也会初始化Children。因为访问了str2，要初始化Children，又因为子类被初始化，所以父类也被主动使用，进行初始化 System.out.println(Children.str2); &#125; static class Parent &#123; static String str1 = "hello"; static &#123; System.out.println("Parent初始化。。。。"); &#125; &#125; static class Children extends Parent &#123; static String str2 = "world"; static &#123; System.out.println("Children初始化。。。。"); &#125; &#125;&#125; 对应的输出： 12345Parent初始化。。。。hello===========================Children初始化。。。。world]]></content>
