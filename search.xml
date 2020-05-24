@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[orika线程死循环记录]]></title>
+    <url>%2Fblog%2F2020%2F05%2F24%2Forika%E7%BA%BF%E7%A8%8B%E6%AD%BB%E5%BE%AA%E7%8E%AF%E8%AE%B0%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[问题现象在测试环境看到机器cpu报警，且cpu是突然升起来并且一直稳定跑满在百分之90左右。观察流量和接口的qps，并没有突然增加或者有突刺。 问题排查上机器top -H -p pid + jstack观察之后发现很多http线程卡在orika的一个weakHashMap的get方法中： 很明显，这里是触发了经常看到HashMap一类分析文章中的map链表成环并且死循环的问题，然后就去查看了orika中的这个类，代码维护了一个全局的weakHashMap： 12// 定义了一个WeakHashMap private static volatile WeakHashMap&lt;java.lang.reflect.Type, Integer&gt; knownTypes = new WeakHashMap&lt;java.lang.reflect.Type, Integer&gt;(); 这里有点不明白的是使用的是java1.8，记得代码中是更改了扩容时候链表的迁移方式，避免了成环操作，然后就去看了WeakHashMap的操作，发现原来WeakHashMap并没有去树化和改变迁移链表的方式，还是可能出现成环，然后在get的时候死循环导致cpu异常。 其实在WeakHashMap的注释中也看到了对应不同步的说法： 1234* &lt;p&gt; Like most collection classes, this class is not synchronized.* A synchronized &lt;tt&gt;WeakHashMap&lt;/tt&gt; may be constructed using the* &#123;@link Collections#synchronizedMap Collections.synchronizedMap&#125;* method. 问题解决这里尝试去找了网上的文章和orika的issue，发现有遇到同样问题的文章和issue: 参考blog) 官方issue 这里都提示了在高版本解决了这个问题。我这里使用的是orika1.5.1版本的包，升级为最新的1.5.4之后，再看这个weakHashMap加上了同步方法：]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>orika</tag>
+        <tag>map死循环</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[dubbofilter的路径问题]]></title>
     <url>%2Fblog%2F2020%2F05%2F20%2Fdubbofilter%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[自定义dubbofilter在使用dubbo框架的时候可以使用filter去实现一些拦截功能和调整拦截顺序，在每次调用的过程中，Filter的拦截都会被执行。当然除了Dubbo默认的filter，用户也可以自定义dubbo filter来实现对应的功能。这里记录一个遇到的spi文件路径问题。 问题现象在测试自定义一个dubbo filter之后，发现并没有生效。 对应的filter代码： 123456789101112131415@Activate(group = Constants.PROVIDER, order = Integer.MIN_VALUE)public class HelloFilter implements Filter &#123; /** * @param invoker * @param invocation * @return * @throws RpcException */ @Override public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException &#123; System.out.println("filter调用了"); return invoker.invoke(invocation); &#125;&#125; 对应的spi文件内容： 1dubboLoggerFilter=com.xxx.demo.xxx.filter.HelloFilter 经过排查之后发现代码写的没啥问题，但dubbo并没有加载这个自定义filter的spi。隐约感觉是路径问题。 问题解决因为是对应一个已生效的filter去设置的，所以当时看到已有项目中的文件是这样的： 所以在建立spi文件的文件目录时直接new了一个目录名字叫做META-INF.dubbo。但其实看官方blog中的介绍是要在maven资源文件下建立如下的结果的spi文件： 这里恍然大悟才发现自己的目录路径建立错误了。 这里其实是idea展示的一个坑，比如我在现在改对的基础上去建立META-INF.dubbo目录，其实是和正确目录展示是一样的： 但是在你提交git文件的时候，其实是能明显看到对应的差别的： 这里记录下踩到的这个坑。]]></content>
